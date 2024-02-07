@@ -18,7 +18,7 @@
   #include "BOV.h"
 #endif
 #define GLFW_INCLUDE_GLU
-#include "../glfw/include/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include "fem.h"
 
 

@@ -172,6 +172,42 @@ extern "C" {
 
 #elif defined(GLFW_INCLUDE_GLCOREARB)
 
+ #if defined(__APPLE__)
+
+  #include <OpenGL/gl3.h>
+  #if defined(GLFW_INCLUDE_GLEXT)
+   #include <OpenGL/gl3ext.h>
+  #endif /*GLFW_INCLUDE_GLEXT*/
+
+ #else /*__APPLE__*/
+
+  #include <GL/glcorearb.h>
+
+ #endif /*__APPLE__*/
+
+#elif !defined(GLFW_INCLUDE_NONE)
+
+ #if defined(__APPLE__)
+
+  #if !defined(GLFW_INCLUDE_GLEXT)
+   #define GL_GLEXT_LEGACY
+  #endif
+  #include <OpenGL/gl.h>
+  #if defined(GLFW_INCLUDE_GLU)
+   #include <OpenGL/glu.h>
+  #endif
+
+ #else /*__APPLE__*/
+
+  #include <GL/gl.h>
+  #if defined(GLFW_INCLUDE_GLEXT)
+   #include <GL/glext.h>
+  #endif
+  #if defined(GLFW_INCLUDE_GLU)
+   #include <GL/glu.h>
+  #endif
+
+ #endif /*__APPLE__*/
 
 #endif /* OpenGL and OpenGL ES headers */
 

@@ -1,0 +1,9 @@
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/CMakeFiles/myFem.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/CMakeFiles/run.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/CMakeFiles/edit_cache.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/CMakeFiles/rebuild_cache.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/glfw/CMakeFiles/edit_cache.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/glfw/CMakeFiles/rebuild_cache.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/glfw/src/CMakeFiles/glfw.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/glfw/src/CMakeFiles/edit_cache.dir
+/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/Integrate/glfw/src/CMakeFiles/rebuild_cache.dir

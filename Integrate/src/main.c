@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     do {
         glfemReshape(x,y,3);
 
-        double I = integrateRecursive(x,y,fun,2);
+        double I = integrateRecursive(x,y,stupid,2);
         sprintf(theMessage, "Integral = %14.7e",I); 
         glfemDrawMessage(theMessage,(double[2]){16.0, 30.0});
 
