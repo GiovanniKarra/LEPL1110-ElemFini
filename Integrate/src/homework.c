@@ -45,5 +45,5 @@ double integrateRecursive(double x[3], double y[3], double (*f)(double,double), 
         I += integrateRecursive(locX, locY, f, n-1);
     }
 
-    return I;
+    return I/4;
 }
