@@ -1,0 +1,116 @@
+[
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -Dgraphic @CMakeFiles/myFem.dir/includes_C.rsp -g -o CMakeFiles\\myFem.dir\\src\\fem.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\src\\fem.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/src/fem.c",
+  "output": "CMakeFiles/myFem.dir/src/fem.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -Dgraphic @CMakeFiles/myFem.dir/includes_C.rsp -g -o CMakeFiles\\myFem.dir\\src\\glfem.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\src\\glfem.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/src/glfem.c",
+  "output": "CMakeFiles/myFem.dir/src/glfem.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -Dgraphic @CMakeFiles/myFem.dir/includes_C.rsp -g -o CMakeFiles\\myFem.dir\\src\\homework.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\src\\homework.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/src/homework.c",
+  "output": "CMakeFiles/myFem.dir/src/homework.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -Dgraphic @CMakeFiles/myFem.dir/includes_C.rsp -g -o CMakeFiles\\myFem.dir\\src\\main.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\src\\main.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/src/main.c",
+  "output": "CMakeFiles/myFem.dir/src/main.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\context.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\context.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/context.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/context.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\init.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\init.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/init.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/init.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\input.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\input.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/input.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/input.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\monitor.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\monitor.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/monitor.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/monitor.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\vulkan.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\vulkan.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/vulkan.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\window.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\window.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/window.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/window.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_init.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_init.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_init.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_joystick.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_joystick.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_joystick.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_monitor.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_monitor.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_monitor.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_time.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_time.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_time.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_thread.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_thread.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_thread.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\win32_window.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\win32_window.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/win32_window.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\wgl_context.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\wgl_context.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/wgl_context.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\egl_context.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\egl_context.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/egl_context.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj"
+},
+{
+  "directory": "C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src",
+  "command": "C:\\TDM-GCC-64\\bin\\gcc.exe -DUNICODE -DWINVER=0x0501 -D_GLFW_USE_CONFIG_H @CMakeFiles/glfw.dir/includes_C.rsp -g -Wall -Wdeclaration-after-statement -o CMakeFiles\\glfw.dir\\osmesa_context.c.obj -c C:\\Users\\pierr\\Q6\\ElemFini\\GeoMesh\\glfw\\src\\osmesa_context.c",
+  "file": "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/osmesa_context.c",
+  "output": "glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj"
+}
+]
