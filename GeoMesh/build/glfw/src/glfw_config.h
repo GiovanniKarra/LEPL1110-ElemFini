@@ -35,21 +35,9 @@
 //========================================================================
 
 // Define this to 1 if building GLFW for X11
-<<<<<<< HEAD
-<<<<<<< HEAD
-/* #undef _GLFW_X11 */
-// Define this to 1 if building GLFW for Win32
-#define _GLFW_WIN32
-=======
 #define _GLFW_X11
 // Define this to 1 if building GLFW for Win32
 /* #undef _GLFW_WIN32 */
->>>>>>> 7107aea (début devoir 2)
-=======
-#define _GLFW_X11
-// Define this to 1 if building GLFW for Win32
-/* #undef _GLFW_WIN32 */
->>>>>>> 7107aea (début devoir 2)
 // Define this to 1 if building GLFW for Cocoa
 /* #undef _GLFW_COCOA */
 // Define this to 1 if building GLFW for Wayland

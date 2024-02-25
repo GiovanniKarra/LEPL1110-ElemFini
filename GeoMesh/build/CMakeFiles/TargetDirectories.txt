@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/CMakeFiles/myFem.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/CMakeFiles/run.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/CMakeFiles/edit_cache.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/CMakeFiles/rebuild_cache.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/CMakeFiles/edit_cache.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/CMakeFiles/rebuild_cache.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src/CMakeFiles/glfw.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src/CMakeFiles/edit_cache.dir
-C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src/CMakeFiles/rebuild_cache.dir
-=======
-=======
->>>>>>> 7107aea (début devoir 2)
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/CMakeFiles/myFem.dir
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/CMakeFiles/run.dir
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/CMakeFiles/edit_cache.dir
@@ -21,7 +7,3 @@ C:/Users/pierr/Q6/ElemFini/GeoMesh/build/glfw/src/CMakeFiles/rebuild_cache.dir
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/glfw/src/CMakeFiles/glfw.dir
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/glfw/src/CMakeFiles/edit_cache.dir
 /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/build/glfw/src/CMakeFiles/rebuild_cache.dir
-<<<<<<< HEAD
->>>>>>> 7107aea (début devoir 2)
-=======
->>>>>>> 7107aea (début devoir 2)

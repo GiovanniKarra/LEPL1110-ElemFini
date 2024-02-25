@@ -52,20 +52,11 @@ else()
 endif()
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 7107aea (début devoir 2)
 # if the installed project requested no architecture check, don't perform the check
 if("FALSE")
   return()
 endif()
 
-<<<<<<< HEAD
->>>>>>> 7107aea (début devoir 2)
-=======
->>>>>>> 7107aea (début devoir 2)
 # if the installed or the using project don't have CMAKE_SIZEOF_VOID_P set, ignore it:
 if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "" OR "8" STREQUAL "")
   return()

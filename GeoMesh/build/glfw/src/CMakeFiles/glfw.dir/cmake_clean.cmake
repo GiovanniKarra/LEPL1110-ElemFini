@@ -1,39 +1,4 @@
 file(REMOVE_RECURSE
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "CMakeFiles/glfw.dir/context.c.obj"
-  "CMakeFiles/glfw.dir/context.c.obj.d"
-  "CMakeFiles/glfw.dir/egl_context.c.obj"
-  "CMakeFiles/glfw.dir/egl_context.c.obj.d"
-  "CMakeFiles/glfw.dir/init.c.obj"
-  "CMakeFiles/glfw.dir/init.c.obj.d"
-  "CMakeFiles/glfw.dir/input.c.obj"
-  "CMakeFiles/glfw.dir/input.c.obj.d"
-  "CMakeFiles/glfw.dir/monitor.c.obj"
-  "CMakeFiles/glfw.dir/monitor.c.obj.d"
-  "CMakeFiles/glfw.dir/osmesa_context.c.obj"
-  "CMakeFiles/glfw.dir/osmesa_context.c.obj.d"
-  "CMakeFiles/glfw.dir/vulkan.c.obj"
-  "CMakeFiles/glfw.dir/vulkan.c.obj.d"
-  "CMakeFiles/glfw.dir/wgl_context.c.obj"
-  "CMakeFiles/glfw.dir/wgl_context.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_init.c.obj"
-  "CMakeFiles/glfw.dir/win32_init.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_joystick.c.obj"
-  "CMakeFiles/glfw.dir/win32_joystick.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_monitor.c.obj"
-  "CMakeFiles/glfw.dir/win32_monitor.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_thread.c.obj"
-  "CMakeFiles/glfw.dir/win32_thread.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_time.c.obj"
-  "CMakeFiles/glfw.dir/win32_time.c.obj.d"
-  "CMakeFiles/glfw.dir/win32_window.c.obj"
-  "CMakeFiles/glfw.dir/win32_window.c.obj.d"
-  "CMakeFiles/glfw.dir/window.c.obj"
-  "CMakeFiles/glfw.dir/window.c.obj.d"
-=======
-=======
->>>>>>> 7107aea (début devoir 2)
   "CMakeFiles/glfw.dir/context.c.o"
   "CMakeFiles/glfw.dir/context.c.o.d"
   "CMakeFiles/glfw.dir/egl_context.c.o"
@@ -66,10 +31,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/glfw.dir/x11_window.c.o.d"
   "CMakeFiles/glfw.dir/xkb_unicode.c.o"
   "CMakeFiles/glfw.dir/xkb_unicode.c.o.d"
-<<<<<<< HEAD
->>>>>>> 7107aea (début devoir 2)
-=======
->>>>>>> 7107aea (début devoir 2)
   "libglfw3.a"
   "libglfw3.pdb"
 )
