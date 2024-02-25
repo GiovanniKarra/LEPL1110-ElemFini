@@ -1,6 +1,10 @@
 # Hashes of file build rules.
 <<<<<<< HEAD
+<<<<<<< HEAD
 c5d6289a1f4dd64416d4555c381c249a CMakeFiles/run
+=======
+90f96f0bf56df5b8abff712adf4d8acd CMakeFiles/run
+>>>>>>> 7107aea (début devoir 2)
 =======
 90f96f0bf56df5b8abff712adf4d8acd CMakeFiles/run
 >>>>>>> 7107aea (début devoir 2)

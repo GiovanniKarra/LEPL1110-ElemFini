@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 prefix=C:/Program Files (x86)/myFemProject
+=======
+prefix=/usr/local
+>>>>>>> 7107aea (début devoir 2)
 =======
 prefix=/usr/local
 >>>>>>> 7107aea (début devoir 2)
@@ -12,9 +16,15 @@ Description: A multi-platform library for OpenGL, window and input
 Version: 3.3.0
 URL: http://www.glfw.org/
 <<<<<<< HEAD
+<<<<<<< HEAD
 Requires.private: 
 Libs: -L${libdir} -lglfw3
 Libs.private:  -lgdi32
+=======
+Requires.private:  x11
+Libs: -L${libdir} -lglfw3
+Libs.private:  -lrt -lm -ldl
+>>>>>>> 7107aea (début devoir 2)
 =======
 Requires.private:  x11
 Libs: -L${libdir} -lglfw3

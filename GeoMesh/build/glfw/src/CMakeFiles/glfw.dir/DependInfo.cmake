@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
 <<<<<<< HEAD
+<<<<<<< HEAD
   "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/context.c" "glfw/src/CMakeFiles/glfw.dir/context.c.obj" "gcc" "glfw/src/CMakeFiles/glfw.dir/context.c.obj.d"
   "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/egl_context.c" "glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj" "gcc" "glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj.d"
   "C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src/init.c" "glfw/src/CMakeFiles/glfw.dir/init.c.obj" "gcc" "glfw/src/CMakeFiles/glfw.dir/init.c.obj.d"
@@ -33,6 +34,8 @@ set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
 # Targets to which this target links which contain Fortran sources.
 set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
 =======
+=======
+>>>>>>> 7107aea (début devoir 2)
   "/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/glfw/src/context.c" "glfw/src/CMakeFiles/glfw.dir/context.c.o" "gcc" "glfw/src/CMakeFiles/glfw.dir/context.c.o.d"
   "/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/glfw/src/egl_context.c" "glfw/src/CMakeFiles/glfw.dir/egl_context.c.o" "gcc" "glfw/src/CMakeFiles/glfw.dir/egl_context.c.o.d"
   "/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/glfw/src/glx_context.c" "glfw/src/CMakeFiles/glfw.dir/glx_context.c.o" "gcc" "glfw/src/CMakeFiles/glfw.dir/glx_context.c.o.d"
@@ -53,6 +56,9 @@ set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+<<<<<<< HEAD
+>>>>>>> 7107aea (début devoir 2)
+=======
 >>>>>>> 7107aea (début devoir 2)
   )
 

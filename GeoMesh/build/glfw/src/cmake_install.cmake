@@ -1,15 +1,21 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Install script for directory: C:/Users/pierr/Q6/ElemFini/GeoMesh/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/myFemProject")
 =======
+=======
+>>>>>>> 7107aea (début devoir 2)
 # Install script for directory: /home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "/usr/local")
+<<<<<<< HEAD
+>>>>>>> 7107aea (début devoir 2)
+=======
 >>>>>>> 7107aea (début devoir 2)
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
@@ -21,7 +27,11 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
 <<<<<<< HEAD
+<<<<<<< HEAD
     set(CMAKE_INSTALL_CONFIG_NAME "Debug")
+=======
+    set(CMAKE_INSTALL_CONFIG_NAME "")
+>>>>>>> 7107aea (début devoir 2)
 =======
     set(CMAKE_INSTALL_CONFIG_NAME "")
 >>>>>>> 7107aea (début devoir 2)
@@ -40,12 +50,18 @@ if(NOT CMAKE_INSTALL_COMPONENT)
 endif()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7107aea (début devoir 2)
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
+<<<<<<< HEAD
+>>>>>>> 7107aea (début devoir 2)
+=======
 >>>>>>> 7107aea (début devoir 2)
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
@@ -55,7 +71,11 @@ endif()
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
 <<<<<<< HEAD
+<<<<<<< HEAD
   set(CMAKE_OBJDUMP "C:/TDM-GCC-64/bin/objdump.exe")
+=======
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
+>>>>>>> 7107aea (début devoir 2)
 =======
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 >>>>>>> 7107aea (début devoir 2)

@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
 <<<<<<< HEAD
+<<<<<<< HEAD
   "CMakeFiles/glfw.dir/context.c.obj"
   "CMakeFiles/glfw.dir/context.c.obj.d"
   "CMakeFiles/glfw.dir/egl_context.c.obj"
@@ -31,6 +32,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/glfw.dir/window.c.obj"
   "CMakeFiles/glfw.dir/window.c.obj.d"
 =======
+=======
+>>>>>>> 7107aea (début devoir 2)
   "CMakeFiles/glfw.dir/context.c.o"
   "CMakeFiles/glfw.dir/context.c.o.d"
   "CMakeFiles/glfw.dir/egl_context.c.o"
@@ -63,6 +66,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/glfw.dir/x11_window.c.o.d"
   "CMakeFiles/glfw.dir/xkb_unicode.c.o"
   "CMakeFiles/glfw.dir/xkb_unicode.c.o.d"
+<<<<<<< HEAD
+>>>>>>> 7107aea (début devoir 2)
+=======
 >>>>>>> 7107aea (début devoir 2)
   "libglfw3.a"
   "libglfw3.pdb"

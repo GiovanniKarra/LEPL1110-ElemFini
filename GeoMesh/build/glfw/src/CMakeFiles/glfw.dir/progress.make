@@ -15,6 +15,10 @@ CMAKE_PROGRESS_14 = 14
 CMAKE_PROGRESS_15 = 15
 CMAKE_PROGRESS_16 = 16
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+CMAKE_PROGRESS_17 = 17
+>>>>>>> 7107aea (début devoir 2)
 =======
 CMAKE_PROGRESS_17 = 17
 >>>>>>> 7107aea (début devoir 2)
