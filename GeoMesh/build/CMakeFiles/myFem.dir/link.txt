@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\myFem.dir/objects.a
 C:\TDM-GCC-64\bin\ar.exe qc CMakeFiles\myFem.dir/objects.a @CMakeFiles\myFem.dir\objects1.rsp
 C:\TDM-GCC-64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\myFem.dir/objects.a -Wl,--no-whole-archive -o myFem.exe -Wl,--out-implib,libmyFem.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\myFem.dir\linkLibs.rsp
+=======
+/usr/bin/cc CMakeFiles/myFem.dir/src/fem.c.o CMakeFiles/myFem.dir/src/glfem.c.o CMakeFiles/myFem.dir/src/homework.c.o CMakeFiles/myFem.dir/src/main.c.o -o myFem  -Wl,-rpath,/home/giogio/Documents/Unif/Code/LEPL1110-ElemFini/GeoMesh/gmsh/gmsh-4.12.2-Linux64-sdk/lib glfw/src/libglfw3.a /usr/lib/x86_64-linux-gnu/libGL.so ../gmsh/gmsh-4.12.2-Linux64-sdk/lib/libgmsh.so /usr/lib/x86_64-linux-gnu/librt.a -lm -ldl /usr/lib/x86_64-linux-gnu/libX11.so 
+>>>>>>> 7107aea (début devoir 2)

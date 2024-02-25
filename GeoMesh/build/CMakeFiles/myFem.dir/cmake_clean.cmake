@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+<<<<<<< HEAD
   "CMakeFiles/myFem.dir/src/fem.c.obj"
   "CMakeFiles/myFem.dir/src/fem.c.obj.d"
   "CMakeFiles/myFem.dir/src/glfem.c.obj"
@@ -10,6 +11,17 @@ file(REMOVE_RECURSE
   "libmyFem.dll.a"
   "myFem.exe"
   "myFem.exe.manifest"
+=======
+  "CMakeFiles/myFem.dir/src/fem.c.o"
+  "CMakeFiles/myFem.dir/src/fem.c.o.d"
+  "CMakeFiles/myFem.dir/src/glfem.c.o"
+  "CMakeFiles/myFem.dir/src/glfem.c.o.d"
+  "CMakeFiles/myFem.dir/src/homework.c.o"
+  "CMakeFiles/myFem.dir/src/homework.c.o.d"
+  "CMakeFiles/myFem.dir/src/main.c.o"
+  "CMakeFiles/myFem.dir/src/main.c.o.d"
+  "myFem"
+>>>>>>> 7107aea (début devoir 2)
   "myFem.pdb"
 )
 

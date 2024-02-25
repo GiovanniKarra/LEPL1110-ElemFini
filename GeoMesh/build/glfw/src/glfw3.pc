@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 prefix=C:/Program Files (x86)/myFemProject
+=======
+prefix=/usr/local
+>>>>>>> 7107aea (début devoir 2)
 exec_prefix=${prefix}
 includedir=${prefix}/include
 libdir=${exec_prefix}/lib
@@ -7,7 +11,13 @@ Name: GLFW
 Description: A multi-platform library for OpenGL, window and input
 Version: 3.3.0
 URL: http://www.glfw.org/
+<<<<<<< HEAD
 Requires.private: 
 Libs: -L${libdir} -lglfw3
 Libs.private:  -lgdi32
+=======
+Requires.private:  x11
+Libs: -L${libdir} -lglfw3
+Libs.private:  -lrt -lm -ldl
+>>>>>>> 7107aea (début devoir 2)
 Cflags: -I${includedir}
