@@ -40,26 +40,6 @@ double geoSize(double x, double y){
     double h1 = theGeometry->hHole;
     double d1 = theGeometry->dHole;
 
-
-
-
-    //
-    //     A modifier !
-    //     
-    // Your contribution starts here ....
-    //
-    double Lx = 1.0;
-    double Ly = 2.0;
-    theGeometry->LxPlate = Lx;
-    theGeometry->LyPlate = Ly;
-    theGeometry->xPlate = 0.0;
-    theGeometry->yPlate = 0.0;
-    theGeometry->xHole = Lx / 4.0;
-    theGeometry->yHole = Ly / 4.0;
-    theGeometry->rHole = Lx / 8.0;
-    theGeometry->xNotch = -Lx / 2.0;
-    theGeometry->yNotch = -Ly / 2.0;
-    theGeometry->rNotch = Lx / 2.0;
      
     // Calcul de la distance aux deux cercles
     double distanceToNotch = sqrt(pow(x - x0, 2) + pow(y - y0, 2)) - r0;
@@ -77,12 +57,8 @@ double geoSize(double x, double y){
     }
 
     return size;
-    
-//   
-// Your contribution ends here :-)
-//
-
 }
+
 void geoMeshGenerate() {
 
     femGeo* theGeometry = geoGetGeometry();
@@ -110,10 +86,10 @@ void geoMeshGenerate() {
     int idPlate = gmshModelOccAddRectangle(x0, y0, 0.0, -2*x0, -2*y0, 1, 0.0, &ierr);   
     ErrorGmsh(ierr);
 
-    int idNotch = gmshModelOccAddDisk(theGeometry->xNotch, theGeometry->yNotch, 0.0, r0, r0 , 2, NULL, 0, NULL, 0, &ierr);
+    int idNotch = gmshModelOccAddDisk(x0, y0, 0.0, r0, r0 , 2, NULL, 0, NULL, 0, &ierr);
     ErrorGmsh(ierr);
 
-    int idHole  = gmshModelOccAddDisk(theGeometry->xHole, theGeometry->yHole, 0.0, r1, r1, 3 ,NULL, 0, NULL, 0, &ierr);    
+    int idHole  = gmshModelOccAddDisk(x1, y1, 0.0, r1, r1, 3 ,NULL, 0, NULL, 0, &ierr);    
     ErrorGmsh(ierr);
     
     int plate[] = {2, idPlate};
@@ -136,13 +112,13 @@ void geoMeshGenerate() {
        
 ///
 //  Generation de quads :-)
-//
-   gmshOptionSetNumber("Mesh.SaveAll", 1, &ierr);
-   gmshOptionSetNumber("Mesh.RecombineAll", 1, &ierr);
-   gmshOptionSetNumber("Mesh.Algorithm", 8, &ierr);  
-   gmshOptionSetNumber("Mesh.RecombinationAlgorithm", 1.0, &ierr);
-   gmshModelGeoMeshSetRecombine(2,1,45,&ierr);  
-   gmshModelMeshGenerate(2, &ierr);  
+
+//    gmshOptionSetNumber("Mesh.SaveAll", 1, &ierr);
+//    gmshOptionSetNumber("Mesh.RecombineAll", 1, &ierr);
+//    gmshOptionSetNumber("Mesh.Algorithm", 8, &ierr);  
+//    gmshOptionSetNumber("Mesh.RecombinationAlgorithm", 1.0, &ierr);
+//    gmshModelGeoMeshSetRecombine(2,1,45,&ierr);  
+//    gmshModelMeshGenerate(2, &ierr);  
    
  
 //
