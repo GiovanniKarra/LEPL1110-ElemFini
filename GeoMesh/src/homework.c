@@ -4,24 +4,6 @@
 #endif
 #include <math.h>
 
-double hermiteInterpolation(double d, double h0, double hStar, double dStar) {
-    // Interpolation polynomiale de degré 3
-    double f0 = h0;
-    double f1 = 0;  // dérivée nulle à l'extrémité
-    double f2 = hStar;
-    double f3 = 0;  // dérivée nulle à l'extrémité
-
-    // Calcul des coefficients
-    double c0 = f0;
-    double c1 = f1;
-    double c2 = (3 * (f2 - f0) / pow(dStar, 2)) - ((f1 + 2 * f0) / dStar);
-    double c3 = (2 * (f0 - f2) / pow(dStar, 3)) + ((f1 + f2) / pow(dStar, 2));
-
-    // Calcul de la valeur interpolée
-    double result = c0 + c1 * d + c2 * pow(d, 2) + c3 * pow(d, 3);
-    return result;
-}
-
 double geoSize(double x, double y){
 
     femGeo* theGeometry = geoGetGeometry();
@@ -83,21 +65,21 @@ void geoMeshGenerate() {
 //
  
     int ierr;
-    int idPlate = gmshModelOccAddRectangle(x0, y0, 0.0, -2*x0, -2*y0, 1, 0.0, &ierr);   
+    int idPlate = gmshModelOccAddRectangle(x0, y0, 0.0, -x0, -y0, 0, 0.0, &ierr);   
     ErrorGmsh(ierr);
 
-    int idNotch = gmshModelOccAddDisk(x0, y0, 0.0, r0, r0 , 2, NULL, 0, NULL, 0, &ierr);
+    int idNotch = gmshModelOccAddDisk(theGeometry->xNotch, theGeometry->yNotch, 0.0, r0, r0 , 1, NULL, 0, NULL, 0, &ierr);
     ErrorGmsh(ierr);
 
-    int idHole  = gmshModelOccAddDisk(x1, y1, 0.0, r1, r1, 3 ,NULL, 0, NULL, 0, &ierr);    
+    int idHole  = gmshModelOccAddDisk(theGeometry->xHole, theGeometry->yHole, 0.0, r1, r1, 2 ,NULL, 0, NULL, 0, &ierr);    
     ErrorGmsh(ierr);
     
-    int plate[] = {2, idPlate};
-    int notch[] = {2, idNotch};
-    int hole[]  = {2, idHole};
-    gmshModelOccCut(plate, sizeof(plate) / sizeof(plate[0]), notch, sizeof(notch) / sizeof(notch[0]), NULL, NULL, NULL, NULL, NULL, -1, 1, 1, &ierr);
+    int plate[] = {idPlate, 2};
+    int notch[] = {idNotch, 2};
+    int hole[]  = {idHole, 2};
+    gmshModelOccCut(plate, 1, notch, 1, NULL, NULL, NULL, NULL, NULL, -1, 1, 1, &ierr);
     ErrorGmsh(ierr);
-    gmshModelOccCut(plate, sizeof(plate) / sizeof(plate[0]), hole, sizeof(hole) / sizeof(hole[0]), NULL, NULL, NULL, NULL, NULL, -1, 1, 1, &ierr);
+    gmshModelOccCut(plate, 1, hole, 1, NULL, NULL, NULL, NULL, NULL, -1, 1, 1, &ierr);
  
 //
 //  -2- D�finition de la fonction callback pour la taille de r�f�rence
