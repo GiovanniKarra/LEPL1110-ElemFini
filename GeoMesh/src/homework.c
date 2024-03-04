@@ -4,6 +4,20 @@
 #endif
 #include <math.h>
 
+double hermiteInterpolation(double d, double h0, double hStar, double dStar) {
+    // a = h0; b = 0; h0 + cd*d* + dd*d*d* = h* ; 2cd* + 3d d*d* = 0 => c = -3dd*/2
+    // h0 - 3dd***/2 + dd*** = h* => 2(h0 - h*)/d*** = d; c = 3(h*-h0)/d**
+
+    // Calcul des coefficients
+    double c0 = h0;
+    double c2 = (3 * (hStar - h0) / pow(dStar, 2));
+    double c3 = (2 * (h0 - hStar) / pow(dStar, 3));
+
+    // Calcul de la valeur interpolée
+    double result = c0 + c2 * pow(d, 2) + c3 * pow(d, 3);
+    return result;
+}
+
 double geoSize(double x, double y){
 
     femGeo* theGeometry = geoGetGeometry();
@@ -29,11 +43,11 @@ double geoSize(double x, double y){
 
     // Calcul de la taille requise en chaque point du domaine
     double size = h;  // Taille de référence globale
-    if (distanceToNotch >= 0 && distanceToNotch <= d0) {
+    if (distanceToNotch <= d0) {
         double sizeNotch = hermiteInterpolation(distanceToNotch, h0, h, d0);
         size = fmin(size, sizeNotch);
     }
-    if (distanceToHole >= 0 && distanceToHole <= d1) {
+    if (distanceToHole <= d1) {
         double sizeHole = hermiteInterpolation(distanceToHole, h1, h, d1);
         size = fmin(size, sizeHole);
     }
