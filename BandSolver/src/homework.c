@@ -11,7 +11,7 @@ int compare_pos(const void *a, const void *b) {
     int *ia = (int*)a; int *ib = (int*)b;
     double diff = GlobalArray[*ia] - GlobalArray[*ib];
 
-    return (diff < 0) - (diff > 0);
+    return (diff > 0) - (diff < 0);
 }
 
 void femMeshRenumber(femMesh *theMesh, femRenumType renumType)
@@ -61,9 +61,9 @@ int femMeshComputeBand(femMesh *theMesh)
     int nLocal = theMesh->nLocalNode;
     myBand = 0;
 
-    for (int iElem = 0; iElem < theMesh->nElem; iElem++) {
+    for (int i = 0; i < theMesh->nElem; i++) {
         for (int j = 0; j < nLocal; ++ j )
-            map[j] = theMesh->nodes->number[theMesh->elem[iElem*nLocal+j]];
+            map[j] = theMesh->nodes->number[theMesh->elem[i*nLocal+j]];
 
         // On trouve le noeud maximum et minimum
         myMin = map[0];
@@ -77,7 +77,7 @@ int femMeshComputeBand(femMesh *theMesh)
             myBand = myMax - myMin;
     }
 
-    return (++myBand);
+    return myBand+1;
 }
 
 
@@ -115,15 +115,10 @@ double  *femBandSystemEliminate(femBandSystem *myBand)
     band = myBand->band;
     
     for (k=0; k < size; k++) {
-        if ( fabs(A[k][k]) <= 1e-8 ) {
-            printf("Pivot index %d  ",k);
-            printf("Pivot value %e  ",A[k][k]);
-            Error("Cannot eliminate with such a pivot");
-        }
         jend = k+band < size ? k+band : size;
         for (i = k+1 ; i <  jend; i++) {
-            factor = A[i][k] / A[k][k];
-            for (j = k+1 ; j < jend; j++) 
+            factor = A[k][i] / A[k][k];
+            for (j = i ; j < jend; j++) 
                 A[i][j] = A[i][j] - A[k][j] * factor;
             B[i] = B[i] - B[k] * factor;
         }
