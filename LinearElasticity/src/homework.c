@@ -1,5 +1,8 @@
 #include "fem.h"
 
+
+
+
 void geoMeshGenerate() {
 
     femGeo* theGeometry = geoGetGeometry();
@@ -37,6 +40,16 @@ void geoMeshGenerate() {
 }
 
 
+void femElasticLocal(femMesh *theMesh, const int iElem, int *map, double *x, double *y)
+{
+    for (int j = 0; j < theMesh->nLocalNode; j++){
+        map[j] = theMesh->elem[theMesh->nLocalNode*iElem + j];
+        x[j] = theMesh->nodes->X[map[j]];
+        y[j] = theMesh->nodes->Y[map[j]];
+    }
+}
+
+
 double *femElasticitySolve(femProblem *theProblem)
 {
 
@@ -49,7 +62,7 @@ double *femElasticitySolve(femProblem *theProblem)
     
     
     double x[4],y[4],phi[4],dphidxsi[4],dphideta[4],dphidx[4],dphidy[4];
-    int iElem,iInteg,iEdge,i,j,d,map[4],mapX[4],mapY[4];
+    int iElem,iInteg,iEdge,j,d,map[4],mapX[4],mapY[4], i;
     
     int nLocal = theMesh->nLocalNode;
 
@@ -60,53 +73,48 @@ double *femElasticitySolve(femProblem *theProblem)
     double g   = theProblem->g;
     double **A = theSystem->A;
     double *B  = theSystem->B;
-    int number_of_elem = theMesh->nElem;
-  for (iElem = 0; iElem < number_of_elem; iElem++) {
-        for (j = 0; j < nLocal; j++) {
-            map[j] = theMesh->elem[iElem * nLocal + j];
-            mapX[j] = 2 * map[j];
-            mapY[j] = 2 * map[j] + 1;
-            x[j] = theNodes->X[map[j]];
-            y[j] = theNodes->Y[map[j]];
-        }
-        for (iInteg = 0; iInteg < theRule->n; iInteg++) {
-            double xsi = theRule->xsi[iInteg];
-            double weight = theRule->weight[iInteg];
-            double eta = theRule->eta[iInteg];
+    
+    for (iElem = 0; iElem < theMesh->nElem; iElem++)
+    {
+        femElasticLocal(theMesh, iElem, map, x, y);
+        for (iInteg=0; iInteg < theRule->n; iInteg++){  
+            double xsi    = theRule->xsi[iInteg];
+            double eta    = theRule->eta[iInteg];
+            double weight = theRule->weight[iInteg];  
+            femDiscretePhi2(theSpace,xsi,eta,phi);
+            femDiscreteDphi2(theSpace,xsi,eta,dphidxsi,dphideta);
 
-            femDiscretePhi2(theSpace, xsi, eta, phi);
-            femDiscreteDphi2(theSpace, xsi, eta, dphidxsi, dphideta);
-            double dxdeta = 0.0;
-            double dxdxsi = 0.0;
-            double dydeta = 0.0;
-            double dydxsi = 0.0;
-            int tsp = theSpace->n;
-            for (int k = 0; k < tsp ; k++){
-                dxdxsi += x[k] * dphidxsi[k];
-                dxdeta += x[k] * dphideta[k];
-                dydxsi += y[k] * dphidxsi[k];
-                dydeta += y[k] * dphideta[k];
+            double dxdxsi = 0;
+            double dxdeta = 0;
+            double dydxsi = 0; 
+            double dydeta = 0;
+            
+            for (i = 0; i < theSpace->n; i++){  
+                dxdxsi += x[i]*dphidxsi[i];       
+                dxdeta += x[i]*dphideta[i];   
+                dydxsi += y[i]*dphidxsi[i];   
+                dydeta += y[i]*dphideta[i]; 
             }
 
-            double Jac = fabs(dxdxsi * dydeta - dxdeta * dydxsi);
 
-            for (j = 0; j < tsp; j++) {
-                dphidx[j] = (dphidxsi[j] * dydeta - dphideta[j] * dydxsi)/Jac;
-                dphidy[j] = (dphideta[j] * dxdxsi - dphidxsi[j] * dxdeta)/Jac;
-            }
-            for (i = 0; i < tsp; i++) {
-                for (j = 0; j < tsp; j++) {
-                    A[mapX[i]][mapX[j]] += (dphidx[i] * a * dphidx[j] + dphidy[i] * c * dphidy[j]) *weight *Jac;
-                    A[mapX[i]][mapY[j]] += (dphidx[i] * b * dphidy[j] + dphidy[i] * c * dphidx[j]) * weight * Jac;
-                    A[mapY[i]][mapX[j]] += (dphidy[i] * b * dphidx[j] + dphidx[i] * c * dphidy[j]) *weight * Jac;
-                    A[mapY[i]][mapY[j]] += (dphidy[i] * a * dphidy[j] +dphidx[i] * c * dphidx[j]) * weight *Jac;
+            double jac = dxdxsi * dydeta - dxdeta * dydxsi;
+
+            for (i = 0; i < theSpace->n; i++){    
+                dphidx[i] = (dphidxsi[i] * dydeta - dphideta[i] * dydxsi) / jac;       
+                dphidy[i] = (dphideta[i] * dxdxsi - dphidxsi[i] * dxdeta) / jac; 
+            }  
+
+            for (i = 0; i < theSpace->n; i++){ 
+                for(j = 0; j < theSpace->n; j++){
+                    theSystem->A[map[i]][map[j]] += (dphidx[i] * dphidx[j] + dphidy[i] * dphidy[j]) * jac * weight; 
                 }
-            }
-            for (int l = 0; l < tsp; l++) {
-                B[mapY[l]] -= g*rho*Jac*weight*phi[l] ;
+            }                                                                                            
+            for (i = 0; i < theSpace->n; i++){
+                theSystem->B[map[i]] += phi[i] * jac *weight; 
             }
         }
-    }           
+    }
+                
                 
   
     int *theConstrainedNodes = theProblem->constrainedNodes;     
