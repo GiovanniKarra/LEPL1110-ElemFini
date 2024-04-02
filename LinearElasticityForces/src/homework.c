@@ -95,8 +95,8 @@ void femElasticityAssembleNeumann(femProblem *theProblem){
 			double jacob = 0.5*sqrt((x[1] - x[0]) * (x[1] - x[0]) + (y[1] - y[0]) * (y[1] - y[0]));
 
 			for (iInteg = 0; iInteg < theRule->n; iInteg++) {
-				double eta = theRule->xsi[iInteg];
-				femDiscretePhi(theSpace, eta, phi);
+				double xsi = theRule->xsi[iInteg];
+				femDiscretePhi(theSpace, xsi, phi);
 				double weight = theRule->weight[iInteg];
 				for (i = 0; i < nLocal; i++) {
 					B[mapU[i]] += phi[i] * value * jacob * weight;
@@ -106,60 +106,60 @@ void femElasticityAssembleNeumann(femProblem *theProblem){
 	}
 }
 
+double *Aglob; double *Bglob;
 
 double *femElasticitySolve(femProblem *theProblem){
     femFullSystem *theSystem = theProblem->system;
     double **A = theSystem->A;
     double *B = theSystem->B;
+	int size = theSystem->size;
+
 	femElasticityAssembleElements(theProblem);
 	femElasticityAssembleNeumann(theProblem);
 
+	Aglob = malloc(sizeof(double)*size*size);
+	Bglob = malloc(sizeof(double)*size);
 
-	for (int iBnd = 0; iBnd < theProblem->nBoundaryConditions; iBnd++) {
-		femBoundaryCondition *theCondition = theProblem->conditions[iBnd];
-		femBoundaryType type = theCondition->type;
-		double value = theCondition->value;
+	memcpy(Bglob, B, size*sizeof(double));
 
-		if (type != DIRICHLET_X && type != DIRICHLET_Y) continue;
-
-		int *theConstrainedNodes = theProblem->constrainedNodes;     
-		for (int i=0; i < theSystem->size; i++) {
-			if (theConstrainedNodes[i] != -1) {
-				femFullSystemConstrain(theSystem,i,value);
-			}
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			Aglob[i*size+j] = A[i][j];
 		}
 	}
 
-	// int *theConstrainedNodes = theProblem->constrainedNodes;     
-	// for (int i=0; i < theSystem->size; i++) {
-	// 	if (theConstrainedNodes[i] != -1) {
-	// 		double value = theProblem->conditions[theConstrainedNodes[i]]->value;
-	// 		femFullSystemConstrain(theSystem,i,value);
-	// 	}
-	// }
+	int *theConstrainedNodes = theProblem->constrainedNodes;
+	for (int i = 0; i < size; i++) {
+		if (theConstrainedNodes[i] != -1) {
+			double value = theProblem->conditions[theConstrainedNodes[i]]->value;
+			femFullSystemConstrain(theSystem, i, value);
+		}
+	}
 
-	return femFullSystemEliminate(theSystem);
+	double *soluce = femFullSystemEliminate(theSystem);
+	memcpy(theProblem->soluce, soluce, size*sizeof(double));
+	return soluce;
 }
 
 double *femElasticityForces(femProblem *theProblem){        
 		   
 	femFullSystem *theSystem = theProblem->system;
-	double **A = theSystem->A;
 	double *X = theProblem->soluce;
-	double *B = theSystem->B;
 	int size = theSystem->size;
 	double *residuals = theProblem->residuals;
 
 	for (int i = 0; i < size; i++) {
 		residuals[i] = 0.0;
 		for (int j = 0; j < size; j++) {
-			residuals[i] += A[i][j] * X[j];
+			residuals[i] += Aglob[i*size+j] * X[j];
 		}
 	}
 
 	for (int i = 0; i < size; i++) {
-		residuals[i] -= B[i];
+		residuals[i] -= Bglob[i];
 	}
+
+	free(Aglob); free(Bglob);
 
 	return residuals;
 }
