@@ -19,7 +19,7 @@ int main(void) {
 	femElasticityPrint(theProblem);
 	double *theSoluce = femElasticitySolve(theProblem);
 	int nNodes = theGeometry->theNodes->nNodes;
-	femSolutionWrite(nNodes, 2, theSoluce, "../data/UV.txt");
+	femSolutionWrite(nNodes, 2, theSoluce, "../../ProjectPostProcessor/data/UV.txt");
 	femElasticityFree(theProblem);
 	geoFree();
 	return 0;

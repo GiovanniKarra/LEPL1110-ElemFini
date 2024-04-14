@@ -118,6 +118,20 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 			if (type == NEUMANN_Y) {
 				f_y = value;
 			}
+			if (type == NEUMANN_T) {
+				double t_x = tx / length;
+				double t_y = ty / length;
+
+				f_x = value*t_x;
+				f_y = value*t_y;
+			}
+			if (type == NEUMANN_N) {
+				double ny = -tx / length;
+				double nx = ty / length;
+
+				f_x = value*nx;
+				f_y = value*ny;
+			}
 
 			//
 			// A completer :-)
@@ -169,13 +183,17 @@ void femElasticityApplyDirichlet(femProblem *theProblem) {
 			double value = theConstrainedNode->value1;
 			double nx = theConstrainedNode->nx;
 			double ny = theConstrainedNode->ny;
-			// A completer :-)
+			femFullSystemConstrain(theSystem, 2 * node + 0, value*nx);
+			femFullSystemConstrain(theSystem, 2 * node + 1, value*ny);
 		}
 		if (type == DIRICHLET_T) {
 			double value = theConstrainedNode->value1;
 			double nx = theConstrainedNode->nx;
 			double ny = theConstrainedNode->ny;
-			// A completer :-)
+			double tx = ny;
+			double ty = -nx;
+			femFullSystemConstrain(theSystem, 2 * node + 0, value*tx);
+			femFullSystemConstrain(theSystem, 2 * node + 1, value*ty);
 		}
 		if (type == DIRICHLET_NT) {
 			double value_n = theConstrainedNode->value1;
