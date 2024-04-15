@@ -55,9 +55,9 @@ int main(void)
 	double gy = -9.81;
 
 	femProblem *theProblem = femElasticityCreate(theGeometry, E, nu, rho, gx, gy, PLANAR_STRAIN);
-	// femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
-	// femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
-	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, 100.5, NAN);
+	femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
+	femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
+	// femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, 100.5, NAN);
 	femElasticityPrint(theProblem);
 	femElasticityWrite(theProblem, "../../Project/data/problem.txt");
 	femElasticityWrite(theProblem, "../../ProjectPostProcessor/data/problem.txt");

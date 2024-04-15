@@ -31,6 +31,7 @@ typedef struct {
 	int nNodes;
 	double *X;
 	double *Y;
+	int *number;
 } femNodes;
 
 typedef struct {
@@ -84,6 +85,13 @@ typedef struct {
 } femFullSystem;
 
 typedef struct {
+    double *B;
+    double **A;        
+    int size;
+    int band;        
+} femBandSystem;
+
+typedef struct {
 	femDomain *domain;
 	femBoundaryType type;
 	double value1;
@@ -95,6 +103,15 @@ typedef struct {
 	double nx, ny;
 	double value1, value2;
 } femConstrainedNode;
+
+typedef union {
+	femFullSystem *full;
+	femBandSystem *band;
+} femSystem;
+
+typedef enum {
+	SOLVER_FULL, SOLVER_BAND
+} femSolverType;
 
 typedef struct {
 	double E, nu, rho, gx, gy;
@@ -109,7 +126,8 @@ typedef struct {
 	femIntegration *rule;
 	femDiscrete *spaceEdge;
 	femIntegration *ruleEdge;
-	femFullSystem *system;
+	femSystem *system;
+	femSolverType solverType;
 	femConstrainedNode *constrainedNodes;
 } femProblem;
 
@@ -137,7 +155,7 @@ void femElasticityPrint(femProblem *theProblem);
 void femElasticityAddBoundaryCondition(femProblem *theProblem, char *nameDomain, femBoundaryType type, double value1, double value2);
 double *femElasticitySolve(femProblem *theProblem);
 void femElasticityWrite(femProblem *theProbconst, const char *filename);
-femProblem *femElasticityRead(femGeo *theGeometry, const char *filename);
+femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolverType solverType);
 
 void femSolutionWrite(int nNodes, int nfields, double *data, const char *filename);
 int femSolutiondRead(int allocated_size, double *value, const char *filename);
@@ -154,6 +172,11 @@ void femDiscreteDphi2(femDiscrete *mySpace, double xsi, double eta, double *dphi
 void femDiscreteXsi(femDiscrete *mySpace, double *xsi);
 void femDiscretePhi(femDiscrete *mySpace, double xsi, double *phi);
 void femDiscreteDphi(femDiscrete *mySpace, double xsi, double *dphidxsi);
+
+femBandSystem *femBandSystemCreate(int size, int band);
+void femBandSystemFree(femBandSystem *myBandSystem);
+void femBandSystemInit(femBandSystem *myBandSystem);
+double  *femBandSystemEliminate(femBandSystem *myBand);
 
 femFullSystem *femFullSystemCreate(int size);
 void femFullSystemFree(femFullSystem *mySystem);

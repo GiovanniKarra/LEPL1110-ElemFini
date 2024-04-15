@@ -4,4 +4,5 @@ Poisson ratio            :  3.0000000e-01
 Mass density             :  7.8500000e+03    
 Gravity-X                    :  0.0000000e+00    
 Gravity-Y                    : -9.8100000e+00    
-Boundary condition :  Neumann-T                    =  1.0050000e+02,            nan : RoueExterne2
+Boundary condition :  Dirichlet-Y                =  0.0000000e+00,            nan : RoueInterne1
+Boundary condition :  Dirichlet-XY             =  0.0000000e+00,  0.0000000e+00 : RoueInterne2

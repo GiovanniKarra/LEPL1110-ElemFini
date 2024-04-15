@@ -390,6 +390,117 @@ void femDiscretePrint(femDiscrete *mySpace) {
 	}
 }
 
+femBandSystem *femBandSystemCreate(int size, int band)
+{
+	femBandSystem *myBandSystem = malloc(sizeof(femBandSystem));
+	myBandSystem->B = malloc(sizeof(double)*size*(band+1));
+	myBandSystem->A = malloc(sizeof(double*)*size);        
+	myBandSystem->size = size;
+	myBandSystem->band = band;
+	myBandSystem->A[0] = myBandSystem->B + size;
+	int i;
+	for (i=1 ; i < size ; i++) 
+		myBandSystem->A[i] = myBandSystem->A[i-1] + band - 1;
+	femBandSystemInit(myBandSystem);
+	return(myBandSystem);
+}
+ 
+void femBandSystemFree(femBandSystem *myBandSystem)
+{
+	free(myBandSystem->B);
+	free(myBandSystem->A); 
+	free(myBandSystem);
+}
+ 
+void femBandSystemInit(femBandSystem *myBandSystem)
+{
+	int i;
+	int size = myBandSystem->size;
+	int band = myBandSystem->band;
+	for (i=0 ; i < size*(band+1) ; i++) 
+		myBandSystem->B[i] = 0;        
+}
+
+int femMeshComputeBand(femMesh *theMesh) {
+	int myMax, myMin, myBand, map[4];
+	int nLocal = theMesh->nLocalNode;
+	myBand = 0;
+
+	for (int i = 0; i < theMesh->nElem; i++) {
+		for (int j = 0; j < nLocal; ++ j )
+			map[j] = theMesh->nodes->number[theMesh->elem[i*nLocal+j]];
+
+		// On trouve le noeud maximum et minimum
+		myMin = map[0];
+		myMax = map[0];
+		for (int j = 1; j < nLocal ; j++) {
+			myMax = map[j] > myMax ? map[j] : myMax;
+			myMin = map[j] < myMin ? map[j] : myMin;
+		}
+
+		if (myBand < (myMax - myMin))
+			myBand = myMax - myMin;
+	}
+
+	return myBand+1;
+}
+
+int *GlobalArray;
+int compare_pos(const void *a, const void *b) {
+	int *ia = (int*)a; int *ib = (int*)b;
+	double diff = GlobalArray[*ia] - GlobalArray[*ib];
+
+	return (diff > 0) - (diff < 0);
+}
+
+void femMeshRenumber(femMesh *theMesh) {
+
+	int i;
+
+	int *inverse = (int*)malloc(sizeof(int)*theMesh->nodes->nNodes);
+	for (i = 0; i < theMesh->nodes->nNodes; i++)
+		inverse[i] = i;
+
+	GlobalArray = theMesh->nodes->Y;
+	qsort(inverse, theMesh->nodes->nNodes, sizeof(int), compare_pos);
+
+	for (i = 0; i < theMesh->nodes->nNodes; i++)
+		theMesh->nodes->number[inverse[i]] = i;
+
+	free(inverse);
+}
+
+double  *femBandSystemEliminate(femBandSystem *myBand)
+{
+	double  **A, *B, factor;
+	int     i, j, k, jend, size, band;
+	A    = myBand->A;
+	B    = myBand->B;
+	size = myBand->size;
+	band = myBand->band;
+	
+	for (k=0; k < size; k++) {
+		jend = k+band < size ? k+band : size;
+		for (i = k+1 ; i <  jend; i++) {
+			factor = A[k][i] / A[k][k];
+			for (j = i ; j < jend; j++) 
+				A[i][j] = A[i][j] - A[k][j] * factor;
+			B[i] = B[i] - B[k] * factor;
+		}
+	}
+	
+	for (i = size-1; i >= 0 ; i--) {
+		factor = 0;
+		jend = i+band < size ? i+band : size;
+		for (j = i+1 ; j < jend; j++)
+			factor += A[i][j] * B[j];
+		B[i] = (B[i] - factor)/A[i][i];
+	}
+
+
+	return(myBand->B);
+}
+
 femFullSystem *femFullSystemCreate(int size) {
 	femFullSystem *theSystem = malloc(sizeof(femFullSystem));
 	femFullSystemAlloc(theSystem, size);
@@ -495,6 +606,27 @@ void femFullSystemConstrain(femFullSystem *mySystem, int myNode, double myValue)
 	B[myNode] = myValue;
 }
 
+void femBandSystemConstrain(femBandSystem *mySystem, int myNode, double myValue) {
+	double **A, *B;
+	int i, size, band;
+
+	A = mySystem->A;
+	B = mySystem->B;
+	size = mySystem->size;
+	band = mySystem->band;
+
+	for (i = 0; i < size; i++) {
+		B[i] -= myValue * A[i][myNode];
+		A[i][myNode] = 0;
+	}
+
+	for (i = 0; i < size; i++)
+		A[myNode][i] = 0;
+
+	A[myNode][myNode] = 1;
+	B[myNode] = myValue;
+}
+
 femProblem *femElasticityCreate(femGeo *theGeometry, double E, double nu, double rho, double gx, double gy, femElasticCase iCase) {
 	femProblem *theProblem = malloc(sizeof(femProblem));
 	theProblem->E = E;
@@ -544,7 +676,10 @@ femProblem *femElasticityCreate(femGeo *theGeometry, double E, double nu, double
 }
 
 void femElasticityFree(femProblem *theProblem) {
-	femFullSystemFree(theProblem->system);
+	if (theProblem->solverType == SOLVER_FULL)
+		femFullSystemFree(theProblem->system->full);
+	else if (theProblem->solverType == SOLVER_BAND)
+		femBandSystemFree(theProblem->system->band);
 	femIntegrationFree(theProblem->rule);
 	femDiscreteFree(theProblem->space);
 	for (int i = 0; i < theProblem->nBoundaryConditions; i++)
@@ -771,7 +906,7 @@ void femElasticityWrite(femProblem *theProblem, const char *filename) {
 	fclose(file);
 }
 
-femProblem *femElasticityRead(femGeo *theGeometry, const char *filename) {
+femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolverType solverType) {
 	FILE *file = fopen(filename, "r");
 	if (!file) {
 		printf("Error at %s:%d\nUnable to open file %s\n", __FILE__, __LINE__, filename);
@@ -810,7 +945,17 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename) {
 	}
 	theProblem->spaceEdge = femDiscreteCreate(2, FEM_EDGE);
 	theProblem->ruleEdge = femIntegrationCreate(2, FEM_EDGE);
-	theProblem->system = femFullSystemCreate(size);
+
+	theProblem->system = malloc(sizeof(femSystem));
+	if (solverType == SOLVER_FULL) {
+		theProblem->system->full = femFullSystemCreate(size);
+	}
+	else if (solverType == SOLVER_BAND) {
+		femMeshRenumber(theGeometry->theElements);
+		int band = femMeshComputeBand(theGeometry->theElements);
+		theProblem->system->band = femBandSystemCreate(size, band);
+	}
+	theProblem->solverType = solverType;
 
 	char theLine[MAXNAME];
 	char theDomain[MAXNAME];
