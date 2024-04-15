@@ -930,23 +930,23 @@ void femElasticityWrite(femProblem *theProblem, const char *filename) {
 
 	switch (theProblem->planarStrainStress) {
 	case PLANAR_STRESS:
-		fprintf(file, "Type of problem        :    Planar stresses    \n");
+		fprintf(file, "Type of problem    :  Planar stresses    \n");
 		break;
 	case PLANAR_STRAIN:
-		fprintf(file, "Type of problem        :    Planar strains \n");
+		fprintf(file, "Type of problem    :  Planar strains \n");
 		break;
 	case AXISYM:
-		fprintf(file, "Type of problem        :    Axi-symetric problem \n");
+		fprintf(file, "Type of problem    :  Axi-symetric problem \n");
 		break;
 	default:
-		fprintf(file, "Type of problem        :    Undefined    \n");
+		fprintf(file, "Type of problem    :    Undefined    \n");
 		break;
 	}
-	fprintf(file, "Young modulus            : %14.7e    \n", theProblem->E);
-	fprintf(file, "Poisson ratio            : %14.7e    \n", theProblem->nu);
-	fprintf(file, "Mass density             : %14.7e    \n", theProblem->rho);
-	fprintf(file, "Gravity-X                    : %14.7e    \n", theProblem->gx);
-	fprintf(file, "Gravity-Y                    : %14.7e    \n", theProblem->gy);
+	fprintf(file, "Young modulus      : %14.7e    \n", theProblem->E);
+	fprintf(file, "Poisson ratio      : %14.7e    \n", theProblem->nu);
+	fprintf(file, "Mass density       : %14.7e    \n", theProblem->rho);
+	fprintf(file, "Gravity-X          : %14.7e    \n", theProblem->gx);
+	fprintf(file, "Gravity-Y          : %14.7e    \n", theProblem->gy);
 
 	for (int i = 0; i < theProblem->nBoundaryConditions; i++) {
 		femBoundaryCondition *theCondition = theProblem->conditions[i];
@@ -955,37 +955,37 @@ void femElasticityWrite(femProblem *theProblem, const char *filename) {
 		fprintf(file, "Boundary condition : ");
 		switch (theCondition->type) {
 		case DIRICHLET_X:
-			fprintf(file, " Dirichlet-X                = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Dirichlet-X        = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case DIRICHLET_Y:
-			fprintf(file, " Dirichlet-Y                = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Dirichlet-Y        = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case DIRICHLET_XY:
-			fprintf(file, " Dirichlet-XY             = %14.7e, %14.7e ", value1, value2);
+			fprintf(file, " Dirichlet-XY       = %14.7e, %14.7e ", value1, value2);
 			break;
 		case DIRICHLET_N:
-			fprintf(file, " Dirichlet-N                = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Dirichlet-N        = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case DIRICHLET_T:
-			fprintf(file, " Dirichlet-T                = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Dirichlet-T        = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case DIRICHLET_NT:
-			fprintf(file, " Dirichlet-NT             = %14.7e, %14.7e ", value1, value2);
+			fprintf(file, " Dirichlet-NT     = %14.7e, %14.7e ", value1, value2);
 			break;
 		case NEUMANN_X:
-			fprintf(file, " Neumann-X                    = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Neumann-X            = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case NEUMANN_Y:
-			fprintf(file, " Neumann-Y                    = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Neumann-Y            = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case NEUMANN_N:
-			fprintf(file, " Neumann-N                    = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Neumann-N            = %14.7e, %14.7e ", value1, NAN);
 			break;
 		case NEUMANN_T:
-			fprintf(file, " Neumann-T                    = %14.7e, %14.7e ", value1, NAN);
+			fprintf(file, " Neumann-T            = %14.7e, %14.7e ", value1, NAN);
 			break;
 		default:
-			fprintf(file, " Undefined                    = %14.7e, %14.7e ", NAN, NAN);
+			fprintf(file, " Undefined            = %14.7e, %14.7e ", NAN, NAN);
 			break;
 		}
 

@@ -71,9 +71,9 @@ class Mesh:
         return a
 
 
-mesh = Mesh("../Project/data/mesh.txt")
+mesh = Mesh("data/mesh.txt")
 print(mesh)
-uv = np.loadtxt("../Project/data/UV.txt", skiprows=1, delimiter=",")
+uv = np.loadtxt("data/UV.txt", skiprows=1, delimiter=",")
 uv_norm = np.linalg.norm(uv, axis=1)
 factor = 5e4
 
