@@ -14,6 +14,7 @@ void femElasticityAssembleElements(femProblem *theProblem) {
 	femGeo *theGeometry = theProblem->geometry;
 	femNodes *theNodes = theGeometry->theNodes;
 	femMesh *theMesh = theGeometry->theElements;
+	int *number = theMesh->nodes->number;
 	double x[4], y[4], phi[4], dphidxsi[4], dphideta[4], dphidx[4], dphidy[4];
 	int iElem, iInteg, iEdge, i, j, d, map[4], mapX[4], mapY[4];
 	int nLocal = theMesh->nLocalNode;
@@ -29,8 +30,8 @@ void femElasticityAssembleElements(femProblem *theProblem) {
 	for (iElem = 0; iElem < theMesh->nElem; iElem++) {
 		for (j = 0; j < nLocal; j++) {
 			map[j] = theMesh->elem[iElem * nLocal + j];
-			mapX[j] = 2 * map[j];
-			mapY[j] = 2 * map[j] + 1;
+			mapX[j] = 2 * number[map[j]];
+			mapY[j] = mapX[j] + 1;
 			x[j] = theNodes->X[map[j]];
 			y[j] = theNodes->Y[map[j]];
 		}
@@ -85,6 +86,7 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 	femGeo *theGeometry = theProblem->geometry;
 	femNodes *theNodes = theGeometry->theNodes;
 	femMesh *theEdges = theGeometry->theEdges;
+	int *number = theGeometry->theElements->nodes->number;
 	double x[2], y[2], phi[2];
 	int iBnd, iElem, iInteg, iEdge, i, j, d, map[2];
 	int nLocal = 2;
@@ -147,8 +149,8 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 				double weight = theRule->weight[iInteg];
 				femDiscretePhi(theSpace, xsi, phi);
 				for (i = 0; i < theSpace->n; i++) {
-					B[2*map[i] + 0] += jac * weight * phi[i] * f_x;
-					B[2*map[i] + 1] += jac * weight * phi[i] * f_y;
+					B[2*number[map[i]] + 0] += jac * weight * phi[i] * f_x;
+					B[2*number[map[i]] + 1] += jac * weight * phi[i] * f_y;
 				}
 			}
 		}
@@ -157,8 +159,10 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 
 void femElasticityApplyDirichlet(femProblem *theProblem) {
 	femSystem *theSystem = theProblem->system;
+	femSolverType solverType = theProblem->solverType;
 	femGeo *theGeometry = theProblem->geometry;
 	femNodes *theNodes = theGeometry->theNodes;
+	int *number = theGeometry->theElements->nodes->number;
 
 	for (int node = 0; node < theNodes->nNodes; node++) {
 		femConstrainedNode *theConstrainedNode = &theProblem->constrainedNodes[node];
@@ -168,25 +172,43 @@ void femElasticityApplyDirichlet(femProblem *theProblem) {
 
 		if (type == DIRICHLET_X) {
 			double value = theConstrainedNode->value1;
-			femFullSystemConstrain(theSystem->full, 2 * node + 0, value);
+			if (solverType == SOLVER_FULL)
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 0, value);
+			else if (solverType == SOLVER_BAND)
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 0, value);
 		}
 		if (type == DIRICHLET_Y) {
 			double value = theConstrainedNode->value1;
-			femFullSystemConstrain(theSystem->full, 2 * node + 1, value);
+			if (solverType == SOLVER_FULL)
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 1, value);
+			else if (solverType == SOLVER_BAND)
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 1, value);
 		}
 		if (type == DIRICHLET_XY) {
 			double value_x = theConstrainedNode->value1;
 			double value_y = theConstrainedNode->value2;
-			femFullSystemConstrain(theSystem->full, 2 * node + 0, value_x);
-			femFullSystemConstrain(theSystem->full, 2 * node + 1, value_y);
+			if (solverType == SOLVER_FULL) {
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 0, value_x);
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 1, value_y);
+			}
+			else if (solverType == SOLVER_BAND) {
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 0, value_x);
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 1, value_y);
+			}
 		}
 
 		if (type == DIRICHLET_N) {
 			double value = theConstrainedNode->value1;
 			double nx = theConstrainedNode->nx;
 			double ny = theConstrainedNode->ny;
-			femFullSystemConstrain(theSystem->full, 2 * node + 0, value*nx);
-			femFullSystemConstrain(theSystem->full, 2 * node + 1, value*ny);
+			if (solverType == SOLVER_FULL) {
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 0, value*nx);
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 1, value*ny);
+			}
+			else if (solverType == SOLVER_BAND) {
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 0, value*nx);
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 1, value*ny);
+			}
 		}
 		if (type == DIRICHLET_T) {
 			double value = theConstrainedNode->value1;
@@ -194,8 +216,14 @@ void femElasticityApplyDirichlet(femProblem *theProblem) {
 			double ny = theConstrainedNode->ny;
 			double tx = ny;
 			double ty = -nx;
-			femFullSystemConstrain(theSystem->full, 2 * node + 0, value*tx);
-			femFullSystemConstrain(theSystem->full, 2 * node + 1, value*ty);
+			if (solverType == SOLVER_FULL) {
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 0, value*tx);
+				femFullSystemConstrain(theSystem->full, 2 * number[node] + 1, value*ty);
+			}
+			else if (solverType == SOLVER_BAND) {
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 0, value*tx);
+				femBandSystemConstrain(theSystem->band, 2 * number[node] + 1, value*ty);
+			}
 		}
 		if (type == DIRICHLET_NT) {
 			double value_n = theConstrainedNode->value1;
@@ -219,6 +247,11 @@ double *femElasticitySolve(femProblem *theProblem) {
 	else if (theProblem->solverType == SOLVER_BAND)
 		soluce = femBandSystemEliminate(theProblem->system->band);
 
-	memcpy(theProblem->soluce, soluce, theProblem->system->full->size * sizeof(double));
+	int *number = theProblem->geometry->theElements->nodes->number;
+	int nNodes = theProblem->geometry->theElements->nodes->nNodes;
+	for (int i = 0; i < nNodes; i++) {
+		theProblem->soluce[2*i] = soluce[2*number[i]];
+		theProblem->soluce[i*2+1] = soluce[2*number[i]+1];
+	}
 	return theProblem->soluce;
 }

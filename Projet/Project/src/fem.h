@@ -163,7 +163,6 @@ int femSolutiondRead(int allocated_size, double *value, const char *filename);
 femIntegration *femIntegrationCreate(int n, femElementType type);
 void femIntegrationFree(femIntegration *theRule);
 
-femDiscrete *femDiscreteCreate(int n, femElementType type);
 void femDiscreteFree(femDiscrete *mySpace);
 void femDiscretePrint(femDiscrete *mySpace);
 void femDiscreteXsi2(femDiscrete *mySpace, double *xsi, double *eta);
@@ -185,6 +184,8 @@ void femFullSystemInit(femFullSystem *mySystem);
 void femFullSystemAlloc(femFullSystem *mySystem, int size);
 double *femFullSystemEliminate(femFullSystem *mySystem);
 void femFullSystemConstrain(femFullSystem *mySystem, int myNode, double value);
+
+void femBandSystemConstrain(femBandSystem *mySystem, int myNode, double myValue);
 
 double femMin(double *x, int n);
 double femMax(double *x, int n);

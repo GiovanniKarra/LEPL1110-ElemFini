@@ -58,7 +58,7 @@ int main(void)
 	femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
 	femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
 	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, -500.0, NAN);
-	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_N, 500.0, NAN);
+	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_N, 7000.0, NAN);
 	femElasticityPrint(theProblem);
 	femElasticityWrite(theProblem, "../../Project/data/problem.txt");
 	femElasticityWrite(theProblem, "../../ProjectPostProcessor/data/problem.txt");

@@ -61,7 +61,8 @@ int main(void)
       
         if (option == 1) {
             glfemReshapeWindows(theMesh,w,h);
-            glfemPlotField(theMesh,theProblem->soluce);   }
+            glfemPlotField(theMesh,theProblem->soluce);
+		}
         else {
             glColor3f(1.0,0.0,0.0);
             glfemPlotSolver(theProblem->solver,theProblem->size,w,h); }

@@ -442,10 +442,11 @@ int femMeshComputeBand(femMesh *theMesh) {
 			myBand = myMax - myMin;
 	}
 
-	return myBand+1;
+	printf("band size : %d\n", myBand);
+	return (myBand+1)*2;
 }
 
-int *GlobalArray;
+double *GlobalArray;
 int compare_pos(const void *a, const void *b) {
 	int *ia = (int*)a; int *ib = (int*)b;
 	double diff = GlobalArray[*ia] - GlobalArray[*ib];
@@ -615,65 +616,18 @@ void femBandSystemConstrain(femBandSystem *mySystem, int myNode, double myValue)
 	size = mySystem->size;
 	band = mySystem->band;
 
-	for (i = 0; i < size; i++) {
+	for (i = fmax(0, myNode-band/2); i < fmin(size, myNode+band/2); i++) {
 		B[i] -= myValue * A[i][myNode];
 		A[i][myNode] = 0;
 	}
 
-	for (i = 0; i < size; i++)
+	for (i = fmax(0, myNode-band/2); i < fmin(size, myNode+band/2); i++)
 		A[myNode][i] = 0;
 
 	A[myNode][myNode] = 1;
 	B[myNode] = myValue;
 }
 
-femProblem *femElasticityCreate(femGeo *theGeometry, double E, double nu, double rho, double gx, double gy, femElasticCase iCase) {
-	femProblem *theProblem = malloc(sizeof(femProblem));
-	theProblem->E = E;
-	theProblem->nu = nu;
-	theProblem->gx = gx;
-	theProblem->gy = gy;
-	theProblem->rho = rho;
-
-	if (iCase == PLANAR_STRESS) {
-		theProblem->A = E / (1 - nu * nu);
-		theProblem->B = E * nu / (1 - nu * nu);
-		theProblem->C = E / (2 * (1 + nu));
-	} else if (iCase == PLANAR_STRAIN || iCase == AXISYM) {
-		theProblem->A = E * (1 - nu) / ((1 + nu) * (1 - 2 * nu));
-		theProblem->B = E * nu / ((1 + nu) * (1 - 2 * nu));
-		theProblem->C = E / (2 * (1 + nu));
-	}
-
-	theProblem->planarStrainStress = iCase;
-	theProblem->nBoundaryConditions = 0;
-	theProblem->conditions = NULL;
-
-	int nNodes = theGeometry->theNodes->nNodes;
-	int size = 2 * nNodes;
-	theProblem->constrainedNodes = malloc(nNodes * sizeof(femConstrainedNode));
-	for (int i = 0; i < nNodes; i++) {
-		theProblem->constrainedNodes[i].type = UNDEFINED;
-		theProblem->constrainedNodes[i].nx = NAN;
-		theProblem->constrainedNodes[i].ny = NAN;
-		theProblem->constrainedNodes[i].value2 = NAN;
-		theProblem->constrainedNodes[i].value2 = NAN;
-	}
-
-	theProblem->geometry = theGeometry;
-	if (theGeometry->theElements->nLocalNode == 3) {
-		theProblem->space = femDiscreteCreate(3, FEM_TRIANGLE);
-		theProblem->rule = femIntegrationCreate(3, FEM_TRIANGLE);
-	}
-	if (theGeometry->theElements->nLocalNode == 4) {
-		theProblem->space = femDiscreteCreate(4, FEM_QUAD);
-		theProblem->rule = femIntegrationCreate(4, FEM_QUAD);
-	}
-	theProblem->spaceEdge = femDiscreteCreate(2, FEM_EDGE);
-	theProblem->ruleEdge = femIntegrationCreate(2, FEM_EDGE);
-	theProblem->system = femFullSystemCreate(size);
-	return theProblem;
-}
 
 void femElasticityFree(femProblem *theProblem) {
 	if (theProblem->solverType == SOLVER_FULL)
@@ -946,8 +900,13 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolv
 	theProblem->spaceEdge = femDiscreteCreate(2, FEM_EDGE);
 	theProblem->ruleEdge = femIntegrationCreate(2, FEM_EDGE);
 
+
+	theGeometry->theElements->nodes->number = (int*)malloc(sizeof(int)*nNodes);
+
 	theProblem->system = malloc(sizeof(femSystem));
 	if (solverType == SOLVER_FULL) {
+		for (int i = 0; i < nNodes; i++)
+			theGeometry->theElements->nodes->number[i] = i;
 		theProblem->system->full = femFullSystemCreate(size);
 	}
 	else if (solverType == SOLVER_BAND) {
