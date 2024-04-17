@@ -23,12 +23,16 @@ int main(void)
 	//
 
 	femGeo *theGeometry = geoGetGeometry();
-	geoMeshRead("../data/mesh.txt");
+	// geoMeshRead("../data/mesh.txt");
+	geoMeshRead("../data/aximesh.txt");
+	// geoMeshRead("../data/test.txt");
 
 	femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt");
+	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problemAXYSIM.txt");
 	double *theSoluce = theProblem->soluce;
 	int n = theGeometry->theNodes->nNodes;
 	femSolutiondRead(2 * n, theSoluce, "../data/UV.txt");
+	// femSolutiondRead(2 * n, theSoluce, "../data/UVAXYSIM.txt");
 	femElasticityPrint(theProblem);
 
 	//

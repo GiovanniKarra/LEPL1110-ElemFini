@@ -37,31 +37,65 @@ int main(void)
 	geoMeshGenerateMshFile("../data/mesh.msh");
 
 	geoMeshImport();
-	geoSetDomainName(0, "RoueInterne1");
-	geoSetDomainName(1, "RoueInterne2");
-	geoSetDomainName(2, "RoueExterne1");
-	geoSetDomainName(3, "RoueExterne2");
-	geoMeshWrite("../../Project/data/mesh.txt");
-	geoMeshWrite("../../ProjectPostProcessor/data/mesh.txt");
+	// geoSetDomainName(0, "RoueInterne1");
+	// geoSetDomainName(1, "RoueInterne2");
+	// geoSetDomainName(2, "RoueExterne1");
+	// geoSetDomainName(3, "RoueExterne2");
+	//geoMeshWrite("../../Project/data/mesh.txt");
+	//geoMeshWrite("../../ProjectPostProcessor/data/mesh.txt");
 
 	//
 	//  -2- Definition du probleme
 	//
 
-	double E = 211.e9;
-	double nu = 0.3;
-	double rho = 800;
-	double gx = 0;
-	double gy = -9.81;
+	// double E = 211.e9;
+	// double nu = 0.3;
+	// double rho = 800;
+	// double gx = 0;
+	// double gy = -9.81;
 
-	femProblem *theProblem = femElasticityCreate(theGeometry, E, nu, rho, gx, gy, PLANAR_STRAIN);
-	femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
-	femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
-	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, -500.0, NAN);
-	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_N, 7000.0, NAN);
+	// femProblem *theProblem = femElasticityCreate(theGeometry, E, nu, rho, gx, gy, PLANAR_STRAIN);
+	// femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
+	// femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
+	// femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, -500.0, NAN);
+	// femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_N, 7000.0, NAN);
+	// femElasticityPrint(theProblem);
+	// femElasticityWrite(theProblem, "../../Project/data/problem.txt");
+	// femElasticityWrite(theProblem, "../../ProjectPostProcessor/data/problem.txt");
+
+	geoSetDomainName(0,"Symmetry");
+	geoSetDomainName(1,"Top");
+    geoSetDomainName(7,"Bottom");
+	double E   = 211.e9;
+    double nu  = 0.3;
+    double rho = 7.85e3; 
+    double g   = 9.81;
+    femProblem* theProblem = femElasticityCreate(theGeometry,E,nu,rho,0, -g,PLANAR_STRAIN);
+    femElasticityAddBoundaryCondition(theProblem,"Symmetry",DIRICHLET_X,0.0, NAN);
+    femElasticityAddBoundaryCondition(theProblem,"Bottom",DIRICHLET_Y,0.0, NAN);
+    femElasticityAddBoundaryCondition(theProblem,"Top",NEUMANN_Y,-1e4,NAN);
 	femElasticityPrint(theProblem);
 	femElasticityWrite(theProblem, "../../Project/data/problem.txt");
 	femElasticityWrite(theProblem, "../../ProjectPostProcessor/data/problem.txt");
+
+	// char path1[31];
+	// char path2[44];
+	// int frameCount = 20;
+	// for (int i = 0; i < frameCount; i++) {
+	// 	femElasticityFree(theProblem);
+	// 	theProblem = femElasticityCreate(theGeometry, E, nu, rho, gx, gy, PLANAR_STRAIN);
+	// 	femElasticityAddBoundaryCondition(theProblem, "RoueInterne1", DIRICHLET_Y, 0.0, NAN);
+	// 	femElasticityAddBoundaryCondition(theProblem, "RoueInterne2", DIRICHLET_XY, 0.0, 0.0);
+	// 	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_T, -500.0, NAN);
+	// 	femElasticityAddBoundaryCondition(theProblem, "RoueExterne2", NEUMANN_N, 7000.0*i/frameCount, NAN);
+	// 	femElasticityPrint(theProblem);
+
+	// 	sprintf(path1, "../../Project/data/frame%d.txt", i);
+	// 	sprintf(path2, "../../ProjectPostProcessor/data/frame%d.txt", i);
+
+	// 	femElasticityWrite(theProblem, path1);
+	// 	femElasticityWrite(theProblem, path2);
+	// }
 
 	//
 	//  -3- Champ de la taille de référence du maillage (uniquement pour la visualisation)

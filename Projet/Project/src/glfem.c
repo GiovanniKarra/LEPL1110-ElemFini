@@ -316,7 +316,6 @@ void glfemPlotSolver(femBandSystem *mySolver, int n, int w, int h)
         bottom = meanY - size;
         top = meanY + size;  }   
 
-        
     glViewport(0,0,w,h);    
     glClearColor( 0.9f, 0.9f, 0.8f, 0.0f );
    // glClearColor( 1.0f, 1.0f, 1.0f, 0.0f );  // for white plot
@@ -337,11 +336,11 @@ void glfemPlotSolver(femBandSystem *mySolver, int n, int w, int h)
     glBegin(GL_POINTS);
 	int band = mySolver->band;
     for (i = 0; i < n; i++) {      
-        for (j = fmax(0, i-band/2); j < fmin(i+band/2, n); j++) {      
-            double value = A[j][i];
+        for (j = fmax(0, i-band); j < fmin(i+band, n); j++) {      
+            double value = A[i][j];
             if (fabs(value) >= 1e-6){    
-            	//printf("value %d, %d : %f \n",i,j,fabs(value));
-            	glVertex2f(i*40.0,(n-j-1)*40.0);
+            	// printf("value %d, %d : %f \n",i,j,fabs(value));
+            	glVertex2f(j*40.0,(n-i-1)*40.0);
             }
        }}
     glEnd();

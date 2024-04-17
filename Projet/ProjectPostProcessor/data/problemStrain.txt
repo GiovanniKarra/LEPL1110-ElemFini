@@ -1,0 +1,11 @@
+Type of problem    :  Planar strains 
+Young modulus      :  3.6000000e+10  
+Poisson ratio      :  1.5000000e-01  
+Mass density       :  2.5000000e+03  
+Gravity-X          :  0.0000000e+00  
+Gravity-Y          : -9.8250000e+00  
+Boundary condition :  Dirichlet-XY       =  0.0000000e+00,  0.0000000e+00 : BIG_V_WALL
+Boundary condition :  Dirichlet-N        =  0.0000000e+00,            nan : BIG_T_FLOOR
+Boundary condition :  Dirichlet-T        =  0.0000000e+00,            nan : SMALL_V_T_WALL
+Boundary condition :  Neumann-N          = -1.0000000e+02,            nan : SMALL_V_B_WALL
+Boundary condition :  Neumann-T          =  1.0000000e+01,            nan : SMALL_B_CEILING

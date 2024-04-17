@@ -434,16 +434,15 @@ int femMeshComputeBand(femMesh *theMesh) {
 		myMin = map[0];
 		myMax = map[0];
 		for (int j = 1; j < nLocal ; j++) {
-			myMax = map[j] > myMax ? map[j] : myMax;
-			myMin = map[j] < myMin ? map[j] : myMin;
+			myMax = fmax(map[j], myMax);
+			myMin = fmin(map[j], myMin);
 		}
 
-		if (myBand < (myMax - myMin))
-			myBand = myMax - myMin;
+		myBand = fmax(myMax - myMin, myBand);
 	}
 
 	printf("band size : %d\n", myBand);
-	return (myBand+1)*2;
+	return (myBand+1)*3;
 }
 
 double *GlobalArray;
@@ -455,7 +454,7 @@ int compare_pos(const void *a, const void *b) {
 }
 
 void femMeshRenumber(femMesh *theMesh) {
-
+	// return;
 	int i;
 
 	int *inverse = (int*)malloc(sizeof(int)*theMesh->nodes->nNodes);
@@ -480,19 +479,20 @@ double  *femBandSystemEliminate(femBandSystem *myBand)
 	size = myBand->size;
 	band = myBand->band;
 	
-	for (k=0; k < size; k++) {
+	for (k = 0; k < size; k++) {
 		jend = k+band < size ? k+band : size;
 		for (i = k+1 ; i <  jend; i++) {
 			factor = A[k][i] / A[k][k];
 			for (j = i ; j < jend; j++) 
 				A[i][j] = A[i][j] - A[k][j] * factor;
+
 			B[i] = B[i] - B[k] * factor;
 		}
 	}
 	
 	for (i = size-1; i >= 0 ; i--) {
 		factor = 0;
-		jend = i+band < size ? i+band : size;
+		jend = fmin(i+band, size);
 		for (j = i+1 ; j < jend; j++)
 			factor += A[i][j] * B[j];
 		B[i] = (B[i] - factor)/A[i][i];
@@ -616,12 +616,12 @@ void femBandSystemConstrain(femBandSystem *mySystem, int myNode, double myValue)
 	size = mySystem->size;
 	band = mySystem->band;
 
-	for (i = fmax(0, myNode-band/2); i < fmin(size, myNode+band/2); i++) {
+	for (i = fmax(0, myNode-band); i < fmin(size, myNode+band); i++) {
 		B[i] -= myValue * A[i][myNode];
 		A[i][myNode] = 0;
 	}
 
-	for (i = fmax(0, myNode-band/2); i < fmin(size, myNode+band/2); i++)
+	for (i = fmax(0, myNode-band); i < fmin(size, myNode+band); i++)
 		A[myNode][i] = 0;
 
 	A[myNode][myNode] = 1;
@@ -650,8 +650,10 @@ void femElasticityFree(femProblem *theProblem) {
 */
 void femElasticityAddBoundaryCondition(femProblem *theProblem, char *nameDomain, femBoundaryType type, double value1, double value2) {
 	int iDomain = geoGetDomain(nameDomain);
-	if (iDomain == -1)
+	if (iDomain == -1) {
+		printf("%s\n", nameDomain);
 		Error("Undefined domain :-(");
+	}
 	value2 = ((type != DIRICHLET_XY) && (type != DIRICHLET_NT)) ? NAN : value2;
 
 	femBoundaryCondition *theBoundary = malloc(sizeof(femBoundaryCondition));
@@ -910,6 +912,8 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolv
 		theProblem->system->full = femFullSystemCreate(size);
 	}
 	else if (solverType == SOLVER_BAND) {
+		for (int i = 0; i < nNodes; i++)
+			theGeometry->theElements->nodes->number[i] = i;
 		femMeshRenumber(theGeometry->theElements);
 		int band = femMeshComputeBand(theGeometry->theElements);
 		theProblem->system->band = femBandSystemCreate(size, band);

@@ -57,22 +57,39 @@ void femElasticityAssembleElements(femProblem *theProblem) {
 			if (jac < 0.0)
 				printf("Negative jacobian! Your mesh is oriented in reverse. The normals will be wrong\n");
 			jac = fabs(jac);
+			double r = 1.0;
 
 			for (i = 0; i < theSpace->n; i++) {
 				dphidx[i] = (dphidxsi[i] * dydeta - dphideta[i] * dydxsi) / jac;
 				dphidy[i] = (dphideta[i] * dxdxsi - dphidxsi[i] * dxdeta) / jac;
 			}
-			for (i = 0; i < theSpace->n; i++) {
-				for (j = 0; j < theSpace->n; j++) {
-					A[mapX[i]][mapX[j]] += (dphidx[i] * a * dphidx[j] + dphidy[i] * c * dphidy[j]) * jac * weight;
-					A[mapX[i]][mapY[j]] += (dphidx[i] * b * dphidy[j] + dphidy[i] * c * dphidx[j]) * jac * weight;
-					A[mapY[i]][mapX[j]] += (dphidy[i] * b * dphidx[j] + dphidx[i] * c * dphidy[j]) * jac * weight;
-					A[mapY[i]][mapY[j]] += (dphidy[i] * a * dphidy[j] + dphidx[i] * c * dphidx[j]) * jac * weight;
+
+			if (theProblem->planarStrainStress != AXISYM) {
+				for (i = 0; i < theSpace->n; i++) {
+					for (j = 0; j < theSpace->n; j++) {
+						A[mapX[i]][mapX[j]] += (dphidx[i] * a * dphidx[j] + dphidy[i] * c * dphidy[j]) * jac * weight;
+						A[mapX[i]][mapY[j]] += (dphidx[i] * b * dphidy[j] + dphidy[i] * c * dphidx[j]) * jac * weight;
+						A[mapY[i]][mapX[j]] += (dphidy[i] * b * dphidx[j] + dphidx[i] * c * dphidy[j]) * jac * weight;
+						A[mapY[i]][mapY[j]] += (dphidy[i] * a * dphidy[j] + dphidx[i] * c * dphidx[j]) * jac * weight;
+					}
+				}
+			}
+			else {
+				r = 0.0;
+				for (i = 0; i < theSpace->n; i++) r += x[i] * phi[i];
+
+				for (i = 0; i < theSpace->n; i++) {
+					for (j = 0; j < theSpace->n; j++) {
+						A[mapX[i]][mapX[j]] += (dphidx[i] * a * r * dphidx[j] + dphidy[i] * c * r * dphidy[j] + phi[i] * (b * dphidx[j] + a * phi[j] / r) + dphidx[i] * phi[j] * b) * jac * weight;
+						A[mapX[i]][mapY[j]] += (dphidx[i] * b * dphidy[j] + dphidy[i] * c * dphidx[j]) * jac * weight * r + phi[i] * b * dphidy[j] * jac * weight;
+						A[mapY[i]][mapX[j]] += (dphidy[i] * b * dphidx[j] + dphidx[i] * c * dphidy[j]) * jac * weight * r + phi[j] * b * dphidy[i] * jac * weight;
+						A[mapY[i]][mapY[j]] += (dphidy[i] * a * dphidy[j] + dphidx[i] * c * dphidx[j]) * jac * weight * r;				
+					}
 				}
 			}
 			for (i = 0; i < theSpace->n; i++) {
-				B[mapX[i]] += phi[i] * gx * rho * jac * weight;
-				B[mapY[i]] += phi[i] * gy * rho * jac * weight;
+				B[mapX[i]] += phi[i] * gx * rho * jac * weight * r;
+				B[mapY[i]] += phi[i] * gy * rho * jac * weight * r;
 			}
 		}
 	}
@@ -137,6 +154,17 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 				f_y = value*ny;
 			}
 
+			double axim_x = 1.0;
+			double axim_y = 1.0;
+			if (theProblem->planarStrainStress == AXISYM) {
+				double xsi2[2] = {-1 / sqrt(3), 1 / sqrt(3)};
+				double phi1[2] = {(-xsi2[0] + 1) / 2, (-xsi2[1] + 1) / 2};
+				double phi2[2] = {(xsi2[0] + 1) / 2, (xsi2[1] + 1) / 2};
+
+				axim_x = x[0] * phi1[0] + x[1] * phi2[0];
+				axim_y = x[0] * phi1[1] + x[1] * phi2[1];
+			}
+
 			//
 			// A completer :-)
 			// Attention, pour le normal tangent on calcule la normale (sortante) au SEGMENT, surtout PAS celle de constrainedNodes
@@ -149,8 +177,8 @@ void femElasticityAssembleNeumann(femProblem *theProblem) {
 				double weight = theRule->weight[iInteg];
 				femDiscretePhi(theSpace, xsi, phi);
 				for (i = 0; i < theSpace->n; i++) {
-					B[2*number[map[i]] + 0] += jac * weight * phi[i] * f_x;
-					B[2*number[map[i]] + 1] += jac * weight * phi[i] * f_y;
+					B[2*number[map[i]] + 0] += jac * weight * phi[i] * f_x * axim_x;
+					B[2*number[map[i]] + 1] += jac * weight * phi[i] * f_y * axim_y;
 				}
 			}
 		}
