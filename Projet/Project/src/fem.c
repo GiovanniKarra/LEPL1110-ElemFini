@@ -393,14 +393,14 @@ void femDiscretePrint(femDiscrete *mySpace) {
 femBandSystem *femBandSystemCreate(int size, int band)
 {
 	femBandSystem *myBandSystem = malloc(sizeof(femBandSystem));
-	myBandSystem->B = malloc(sizeof(double)*size*(band+1));
-	myBandSystem->A = malloc(sizeof(double*)*size);        
+	myBandSystem->B = malloc(sizeof(double)*size*(2*band+1));
+	myBandSystem->A = malloc(sizeof(double*)*size);
 	myBandSystem->size = size;
 	myBandSystem->band = band;
 	myBandSystem->A[0] = myBandSystem->B + size;
 	int i;
 	for (i=1 ; i < size ; i++) 
-		myBandSystem->A[i] = myBandSystem->A[i-1] + band - 1;
+		myBandSystem->A[i] = myBandSystem->A[i-1] + 2*band - 1;
 	femBandSystemInit(myBandSystem);
 	return(myBandSystem);
 }
@@ -442,7 +442,7 @@ int femMeshComputeBand(femMesh *theMesh) {
 	}
 
 	printf("band size : %d\n", myBand);
-	return (myBand+1)*3;
+	return (myBand+1)*2;
 }
 
 double *GlobalArray;
@@ -494,8 +494,22 @@ double  *femBandSystemEliminate(femBandSystem *myBand)
 	size = myBand->size;
 	band = myBand->band;
 	
+	for (k = 0; k < size/2; k++) {
+        if ((A[2*k][2*k] == 0) && (A[2*k+1][2*k+1] == 0)) {
+            printf("Warning : disconnected node %d\n", k);
+            A[2*k][2*k] = 1;
+            A[2*k+1][2*k+1] = 1;
+		}
+	}
+
 	for (k = 0; k < size; k++) {
-		jend = k+band < size ? k+band : size;
+		if (fabs(A[k][k]) <= 1e-12) {
+			char error[100];
+			sprintf(error, "Cannot eliminate with such a pivot. A[%d][%d] : %lf", k, k, A[k][k]);
+            Error(error);
+		}
+
+		jend = fmin(k+band, size);
 		for (i = k+1 ; i <  jend; i++) {
 			factor = A[k][i] / A[k][k];
 			for (j = i ; j < jend; j++) 
@@ -926,7 +940,7 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolv
 		theProblem->system->full = femFullSystemCreate(size);
 	}
 	else if (solverType == SOLVER_BAND) {
-		femMeshRenumber(theGeometry->theElements, NO_RENUM);
+		femMeshRenumber(theGeometry->theElements, Y_RENUM);
 		int band = femMeshComputeBand(theGeometry->theElements);
 		theProblem->system->band = femBandSystemCreate(size, band);
 	}

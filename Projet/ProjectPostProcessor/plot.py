@@ -73,16 +73,20 @@ class Mesh:
 
 mesh = Mesh("data/mesh.txt")
 print(mesh)
-uv = np.loadtxt("data/UV.txt", skiprows=1, delimiter=",")
-uv_norm = np.linalg.norm(uv, axis=1)
-factor = 5e4
 
-cb = mesh.plotfield(uv_norm, uv*factor, cmap="turbo")
-plt.colorbar(cb)
-mesh.plot(uv*factor, lw=0.2, c="k")
-plt.gca().set_aspect("equal")
-plt.grid(alpha=0.2)
-plt.show()
+anim_size = 20
+for i in range(anim_size):
+	uv = np.loadtxt("data/anim/UV%d.txt"%i, skiprows=1, delimiter=",")
+	uv_norm = np.linalg.norm(uv, axis=1)
+	factor = 5e4
+
+	cb = mesh.plotfield(uv_norm, uv*factor, cmap="turbo")
+	plt.colorbar(cb)
+	ax = mesh.plot(uv*factor, lw=0.2, c="k")
+	plt.gca().set_aspect("equal")
+	plt.grid(alpha=0.2)
+	plt.show()
+    
 
 
 # %%

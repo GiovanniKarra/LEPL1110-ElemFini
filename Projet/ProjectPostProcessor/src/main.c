@@ -23,8 +23,8 @@ int main(void)
 	//
 
 	femGeo *theGeometry = geoGetGeometry();
-	// geoMeshRead("../data/mesh.txt");
-	geoMeshRead("../data/aximesh.txt");
+	geoMeshRead("../data/mesh.txt");
+	// geoMeshRead("../data/aximesh.txt");
 	// geoMeshRead("../data/test.txt");
 
 	femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt");
