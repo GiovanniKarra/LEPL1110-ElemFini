@@ -12,37 +12,34 @@
 
 #include "glfem.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
+	if (argc != 2) Error("Need 1 argument : mesh name");
+	char *meshname = argv[1];
+	char meshpath[strlen(meshname)+13];
+	sprintf(meshpath, "../data/%s.msh", meshname);
 
 	//
 	//  -1- Construction de la geometrie
 	//
 	geoInitialize();
 	femGeo *theGeometry = geoGetGeometry();
-
-	// OPTION 1 : Utilisation de GMSH avec OpenCascade
-	// theGeometry->h = 0.05;
-	// geoMeshGenerate();
-
-	// OPTION 2 : Utilisation de GMSH directement
-	// theGeometry->h = 0.05;
-	// geoMeshGenerateGeo();
-
-	// OPTION 3 : Lecture d'un fichier .geo
-	// theGeometry->h = 0.05;
-	// geoMeshGenerateGeoFile("../data/mesh.geo");
-
-	// OPTION 4 : Lecture d'un fichier .msh
-	geoMeshGenerateMshFile("../data/mesh.msh");
+	// geoMeshRead("../data/aximesh.txt");
+	geoMeshGenerateMshFile(meshpath);
 
 	geoMeshImport();
 	geoSetDomainName(0, "RoueInterne1");
 	geoSetDomainName(1, "RoueInterne2");
 	geoSetDomainName(2, "RoueExterne1");
 	geoSetDomainName(3, "RoueExterne2");
-	geoMeshWrite("../../Project/data/mesh.txt");
-	geoMeshWrite("../../ProjectPostProcessor/data/mesh.txt");
+
+	char projectmesh[24+strlen(meshname)];
+	sprintf(projectmesh, "../../Project/data/%s.txt", meshname);
+	char postmesh[37+strlen(meshname)];
+	sprintf(postmesh, "../../ProjectPostProcessor/data/%s.txt", meshname);
+
+	geoMeshWrite(projectmesh);
+	geoMeshWrite(postmesh);
 
 	//
 	//  -2- Definition du probleme

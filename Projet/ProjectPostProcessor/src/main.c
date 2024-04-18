@@ -12,8 +12,7 @@
 
 #include "glfem.h"
 
-int main(void)
-{
+int main(int argc, char **argv) {
 	printf("\n\n    V : Mesh and displacement norm \n");
 	printf("    D : Domains \n");
 	printf("    N : Next domain highlighted\n\n\n");
@@ -23,7 +22,11 @@ int main(void)
 	//
 
 	femGeo *theGeometry = geoGetGeometry();
-	geoMeshRead("../data/mesh.txt");
+	if (argc != 2) Error("Need 1 argument : mesh name");
+	char *meshname = argv[1];
+	char meshpath[strlen(meshname)+13];
+	sprintf(meshpath, "../data/%s.txt", meshname);
+	geoMeshRead(meshpath);
 	// geoMeshRead("../data/aximesh.txt");
 	// geoMeshRead("../data/test.txt");
 

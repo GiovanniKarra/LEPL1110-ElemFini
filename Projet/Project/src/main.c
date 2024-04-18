@@ -13,9 +13,15 @@
 #include "fem.h"
 #include "glfem.h"
 
-int main(void) {
+int main(int argc, char **argv) {
+
+	if (argc != 2) Error("Need 1 argument : mesh name");
+	char *meshname = argv[1];
+	char meshpath[strlen(meshname)+13];
+	sprintf(meshpath, "../data/%s.txt", meshname);
+
 	femGeo *theGeometry = geoGetGeometry();
-	geoMeshRead("../data/mesh.txt");
+	geoMeshRead(meshpath);
 	// geoMeshRead("../data/aximesh.txt");
 	// geoMeshRead("../data/test.txt");
 	femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt", SOLVER_BAND);
