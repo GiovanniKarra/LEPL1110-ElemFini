@@ -335,7 +335,11 @@ void glfemPlotSolver(femBandSystem *mySolver, int n, int w, int h)
     glPointSize(pointSize);
     glBegin(GL_POINTS);
 	int band = mySolver->band;
-    for (i = 0; i < n; i++) {      
+    for (i = 0; i < n; i++) {
+		glColor3f(0.0, 1.0, 0.0);
+		glVertex2f(fmax(0, i-band)*40.0,(n-i-1)*40.0);
+		glVertex2f(fmin(i+band, n)*40.0,(n-i-1)*40.0);
+		glColor3f(1.0, 0.0, 0.0);
         for (j = fmax(0, i-band); j < fmin(i+band, n); j++) {      
             double value = A[i][j];
             if (fabs(value) >= 1e-6){    

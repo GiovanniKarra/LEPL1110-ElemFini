@@ -29,14 +29,10 @@ int main(void) {
 	femElasticityApplyDirichlet(theProblem);
 	GLFWwindow* window = glfemInit("LEPL1110 : Band Solver ");
 	glfwMakeContextCurrent(window);
-	while (TRUE) {
+	while (glfwWindowShouldClose(window) != 1) {
 		int w,h;
-        char theMessage[256];
-        sprintf(theMessage, "Max : %.4f ",femMax(theProblem->soluce,theProblem->system->full->size));
         glfwGetFramebufferSize(window,&w,&h);
 		glColor3f(1.0,0.0,0.0);
-		glColor3f(1.0,0.0,0.0);
-		glfemDrawMessage(20,460,theMessage); 
 		glfemPlotSolver(theProblem->system->band, theProblem->system->band->size,w,h);
 		glfwSwapBuffers(window);
         glfwPollEvents();

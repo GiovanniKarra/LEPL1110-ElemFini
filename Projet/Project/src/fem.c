@@ -453,16 +453,31 @@ int compare_pos(const void *a, const void *b) {
 	return (diff > 0) - (diff < 0);
 }
 
-void femMeshRenumber(femMesh *theMesh) {
-	// return;
+void femMeshRenumber(femMesh *theMesh, renumType renum_type) {
 	int i;
 
 	int *inverse = (int*)malloc(sizeof(int)*theMesh->nodes->nNodes);
 	for (i = 0; i < theMesh->nodes->nNodes; i++)
 		inverse[i] = i;
 
-	GlobalArray = theMesh->nodes->Y;
-	qsort(inverse, theMesh->nodes->nNodes, sizeof(int), compare_pos);
+	switch (renum_type) {
+		case NO_RENUM:
+			for (int i = 0; i < theMesh->nodes->nNodes; i++)
+				inverse[i] = i;
+			break;
+		
+		case Y_RENUM:
+			GlobalArray = theMesh->nodes->Y;
+			qsort(inverse, theMesh->nodes->nNodes, sizeof(int), compare_pos);
+			break;
+
+		case CM_RENUM:
+			// ICI PETER !!
+			break;
+
+		default:
+			break;
+	}
 
 	for (i = 0; i < theMesh->nodes->nNodes; i++)
 		theMesh->nodes->number[inverse[i]] = i;
@@ -907,14 +922,11 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolv
 
 	theProblem->system = malloc(sizeof(femSystem));
 	if (solverType == SOLVER_FULL) {
-		for (int i = 0; i < nNodes; i++)
-			theGeometry->theElements->nodes->number[i] = i;
+		femMeshRenumber(theGeometry->theElements, NO_RENUM);
 		theProblem->system->full = femFullSystemCreate(size);
 	}
 	else if (solverType == SOLVER_BAND) {
-		for (int i = 0; i < nNodes; i++)
-			theGeometry->theElements->nodes->number[i] = i;
-		femMeshRenumber(theGeometry->theElements);
+		femMeshRenumber(theGeometry->theElements, NO_RENUM);
 		int band = femMeshComputeBand(theGeometry->theElements);
 		theProblem->system->band = femBandSystemCreate(size, band);
 	}

@@ -131,6 +131,12 @@ typedef struct {
 	femConstrainedNode *constrainedNodes;
 } femProblem;
 
+typedef enum {
+	NO_RENUM,
+	Y_RENUM,
+	CM_RENUM
+} renumType;
+
 void geoInitialize(void);
 femGeo *geoGetGeometry(void);
 double geoSize(double x, double y);
