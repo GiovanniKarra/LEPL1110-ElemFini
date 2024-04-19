@@ -441,7 +441,7 @@ int femMeshComputeBand(femMesh *theMesh) {
 		myBand = fmax(myMax - myMin, myBand);
 	}
 
-	printf("band size : %d\n", myBand);
+	// printf("band size : %d\n", myBand);
 	return (myBand+1)*2;
 }
 

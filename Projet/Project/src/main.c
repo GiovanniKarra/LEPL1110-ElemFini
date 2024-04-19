@@ -19,6 +19,8 @@ int main(int argc, char **argv) {
 	char *meshpath = argv[1];
 	char *problempath = argv[2];
 
+	int PRINT = FALSE;
+
 	femGeo *theGeometry = geoGetGeometry();
 	geoMeshRead(meshpath);
 	// geoMeshRead("../data/aximesh.txt");
@@ -26,7 +28,7 @@ int main(int argc, char **argv) {
 	femProblem *theProblem = femElasticityRead(theGeometry, problempath, SOLVER_BAND);
 	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt", SOLVER_FULL);
 	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problemAXYSIM.txt", SOLVER_FULL);
-	femElasticityPrint(theProblem);
+	if (PRINT) femElasticityPrint(theProblem);
 
 
 	// femElasticityAssembleElements(theProblem);

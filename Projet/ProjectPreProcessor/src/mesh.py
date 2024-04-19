@@ -1,5 +1,6 @@
 import gmsh
 from numpy import sin, cos, pi
+from sys import argv
 
 
 def create_ring(radius, size):
@@ -100,13 +101,15 @@ def wheel(small_radius, large_radius, small_thickness, large_thickness,
 if __name__ == "__main__":
 	gmsh.initialize()
 
+	s = float(argv[1])
+
 	wheel(small_radius=0.3,
 		  large_radius=1,
 		  small_thickness=0.1,
 		  large_thickness=0.1,
 		  n_axes=5,
 		  axes_thickness=0.2,
-		  size=1e-1)
+		  size=s)
 
 	gmsh.model.geo.synchronize()
 	
