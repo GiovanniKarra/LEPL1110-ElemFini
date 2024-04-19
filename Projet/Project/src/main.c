@@ -15,16 +15,15 @@
 
 int main(int argc, char **argv) {
 
-	if (argc != 2) Error("Need 1 argument : mesh name");
-	char *meshname = argv[1];
-	char meshpath[strlen(meshname)+13];
-	sprintf(meshpath, "../data/%s.txt", meshname);
+	if (argc != 3) Error("Need 2 argument : mesh path and problem path");
+	char *meshpath = argv[1];
+	char *problempath = argv[2];
 
 	femGeo *theGeometry = geoGetGeometry();
 	geoMeshRead(meshpath);
 	// geoMeshRead("../data/aximesh.txt");
 	// geoMeshRead("../data/test.txt");
-	femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt", SOLVER_BAND);
+	femProblem *theProblem = femElasticityRead(theGeometry, problempath, SOLVER_BAND);
 	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt", SOLVER_FULL);
 	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problemAXYSIM.txt", SOLVER_FULL);
 	femElasticityPrint(theProblem);
@@ -35,23 +34,38 @@ int main(int argc, char **argv) {
 	// glfwMakeContextCurrent(window);
 	// while (glfwWindowShouldClose(window) != 1) {
 	// 	int w,h;
-    //     glfwGetFramebufferSize(window,&w,&h);
+	// 	glfwGetFramebufferSize(window,&w,&h);
 	// 	glColor3f(1.0,0.0,0.0);
 	// 	glfemPlotSolver(theProblem->system->band, theProblem->system->band->size,w,h);
 	// 	glfwSwapBuffers(window);
-    //     glfwPollEvents();
+	// 	glfwPollEvents();
 	// }
 
 	double *theSoluce = femElasticitySolve(theProblem);
 	int nNodes = theGeometry->theNodes->nNodes;
-	femSolutionWrite(nNodes, 2, theSoluce, "../../ProjectPostProcessor/data/UV.txt");
+
+	char solname[128];
+	memcpy(solname, problempath+2, strlen(problempath+2)+1);
+	solname[strlen(solname)-4] = '\0';
+	strcat(solname, "UV.txt");
+
+	char solpath[256];
+	strcat(solpath, "../../ProjectPostProcessor");
+	strcat(solpath, solname);
+	femSolutionWrite(nNodes, 2, theSoluce, solpath);
 	// femSolutionWrite(nNodes, 2, theSoluce, "../../ProjectPostProcessor/data/UVAXYSIM.txt");
 	femElasticityFree(theProblem);
+	
+	geoFree();
 
-	// int animframes = 20;
-	// char path1[25];
-	// char path2[46];
+
+	// int animframes = 60;
+	// char path1[30];
+	// char path2[50];
 	// for (int i = 0; i < animframes; i++) {
+	// 	theGeometry = geoGetGeometry();
+	// 	geoMeshRead(meshpath);
+
 	// 	sprintf(path1, "../data/anim/frame%d.txt", i);
 	// 	sprintf(path2, "../../ProjectPostProcessor/data/anim/UV%d.txt", i);
 
@@ -63,9 +77,9 @@ int main(int argc, char **argv) {
 	// 	femSolutionWrite(nNodes, 2, theSoluce, path2);
 	// 	femElasticityFree(theProblem);
 
-	// 	printf("i : %d\n", i);
+	// 	printf("path1 : %s\n", path1);
+	// 	geoFree();
 	// }
-	geoFree();
 
 	return 0;
 }

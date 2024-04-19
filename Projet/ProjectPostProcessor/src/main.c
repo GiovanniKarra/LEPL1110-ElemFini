@@ -22,19 +22,20 @@ int main(int argc, char **argv) {
 	//
 
 	femGeo *theGeometry = geoGetGeometry();
-	if (argc != 2) Error("Need 1 argument : mesh name");
-	char *meshname = argv[1];
-	char meshpath[strlen(meshname)+13];
-	sprintf(meshpath, "../data/%s.txt", meshname);
+	if (argc != 4) Error("Need 3 arguments : mesh path, problem path and uv path");
+	char *meshpath = argv[1];
+	char *problempath = argv[2];
+	char *uvpath = argv[3];
+
 	geoMeshRead(meshpath);
 	// geoMeshRead("../data/aximesh.txt");
 	// geoMeshRead("../data/test.txt");
 
-	femProblem *theProblem = femElasticityRead(theGeometry, "../data/problem.txt");
+	femProblem *theProblem = femElasticityRead(theGeometry, problempath);
 	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problemAXYSIM.txt");
 	double *theSoluce = theProblem->soluce;
 	int n = theGeometry->theNodes->nNodes;
-	femSolutiondRead(2 * n, theSoluce, "../data/UV.txt");
+	femSolutiondRead(2 * n, theSoluce, uvpath);
 	// femSolutiondRead(2 * n, theSoluce, "../data/UVAXYSIM.txt");
 	femElasticityPrint(theProblem);
 

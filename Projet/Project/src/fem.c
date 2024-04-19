@@ -503,7 +503,7 @@ double  *femBandSystemEliminate(femBandSystem *myBand)
 	}
 
 	for (k = 0; k < size; k++) {
-		if (fabs(A[k][k]) <= 1e-12) {
+		if (fabs(A[k][k]) <= 1e-12 || A[k][k] == NAN) {
 			char error[100];
 			sprintf(error, "Cannot eliminate with such a pivot. A[%d][%d] : %lf", k, k, A[k][k]);
             Error(error);
@@ -664,7 +664,9 @@ void femElasticityFree(femProblem *theProblem) {
 	else if (theProblem->solverType == SOLVER_BAND)
 		femBandSystemFree(theProblem->system->band);
 	femIntegrationFree(theProblem->rule);
+	femIntegrationFree(theProblem->ruleEdge);
 	femDiscreteFree(theProblem->space);
+	femDiscreteFree(theProblem->spaceEdge);
 	for (int i = 0; i < theProblem->nBoundaryConditions; i++)
 		free(theProblem->conditions[i]);
 	free(theProblem->conditions);
