@@ -16,9 +16,9 @@ echo $SIZE >> $CSV_FILE
 TIME=""
 for i in $SEQ
 do
-	cd ProjectPreProcessor/src
+	cd ProjectPreProcessor
 	python3 mesh.py `echo $i | sed 's/,/./'`
-	cd ../build
+	cd build
 	./myFem mesh
 	cd ../../Project/build
 	

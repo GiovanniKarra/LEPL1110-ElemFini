@@ -21,7 +21,8 @@ plt.loglog(size, 1e-4*size**(-3), linestyle="dashed")
 plt.grid(which="major", linestyle="-")
 plt.grid(which="minor", linestyle=":")
 
-plt.legend(["Notre solveur", "$\mathcal{O}(m^3)$"])
+plt.legend(["Notre solveur", "$\mathcal{O}(h^3)$"])
 
 # plt.show()
-plt.savefig("perf.svg", format="svg")
+# plt.savefig("perf.svg", format="svg")
+plt.savefig("perf.png", format="png")

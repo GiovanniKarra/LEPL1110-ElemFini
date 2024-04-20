@@ -103,12 +103,12 @@ if __name__ == "__main__":
 
 	s = float(argv[1])
 
-	wheel(small_radius=0.3,
+	wheel(small_radius=0.1,
 		  large_radius=1,
-		  small_thickness=0.1,
-		  large_thickness=0.1,
+		  small_thickness=0.05,
+		  large_thickness=0.07,
 		  n_axes=5,
-		  axes_thickness=0.2,
+		  axes_thickness=0.4,
 		  size=s)
 
 	gmsh.model.geo.synchronize()
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 	gmsh.model.mesh.generate()
 	gmsh.model.mesh.refine()
 
-	gmsh.write("../data/mesh.msh")
+	gmsh.write("data/mesh.msh")
 
 	# gmsh.fltk.run()
 	gmsh.finalize()

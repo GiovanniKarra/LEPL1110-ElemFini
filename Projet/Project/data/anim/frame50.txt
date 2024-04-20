@@ -6,4 +6,4 @@ Gravity-X          :  0.0000000e+00
 Gravity-Y          : -9.8100000e+00    
 Boundary condition :  Dirichlet-Y        =  0.0000000e+00,            nan : RoueInterne1
 Boundary condition :  Dirichlet-XY       =  0.0000000e+00,  0.0000000e+00 : RoueInterne2
-Boundary condition :  Neumann-T            = -4.1666667e+03,            nan : RoueExterne2
+Boundary condition :  Neumann-T            = -8.4745763e+02,            nan : RoueExterne2
