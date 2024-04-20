@@ -24,4 +24,4 @@ plt.grid(which="minor", linestyle=":")
 plt.legend(["Notre solveur", "$\mathcal{O}(m^3)$"])
 
 # plt.show()
-plt.savefig("rapport/images/perf.svg", format="svg")
+plt.savefig("perf.svg", format="svg")
