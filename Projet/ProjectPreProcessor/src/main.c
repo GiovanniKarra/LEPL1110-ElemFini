@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 	femElasticityPrint(theProblem);
 	femElasticityWrite(theProblem, "../../Project/data/problem.txt");
 	femElasticityWrite(theProblem, "../../ProjectPostProcessor/data/problem.txt");
-
+	
 	// geoSetDomainName(0,"Symmetry");
 	// geoSetDomainName(1,"Top");
     // geoSetDomainName(7,"Bottom");
@@ -99,15 +99,15 @@ int main(int argc, char **argv)
 	//  -3- Champ de la taille de référence du maillage (uniquement pour la visualisation)
 	//
 
-	double *meshSizeField = malloc(theGeometry->theNodes->nNodes * sizeof(double));
-	femNodes *theNodes = theGeometry->theNodes;
-	for (int i = 0; i < theNodes->nNodes; ++i)
-		meshSizeField[i] = theGeometry->geoSize(theNodes->X[i], theNodes->Y[i]);
-	double hMin = femMin(meshSizeField, theNodes->nNodes);
-	double hMax = femMax(meshSizeField, theNodes->nNodes);
-	printf(" ==== Global requested h : %14.7e \n", theGeometry->h);
-	printf(" ==== Minimum h          : %14.7e \n", hMin);
-	printf(" ==== Maximum h          : %14.7e \n", hMax);
+	// double *meshSizeField = malloc(theGeometry->theNodes->nNodes * sizeof(double));
+	// femNodes *theNodes = theGeometry->theNodes;
+	// for (int i = 0; i < theNodes->nNodes; ++i)
+	// 	meshSizeField[i] = theGeometry->geoSize(theNodes->X[i], theNodes->Y[i]);
+	// double hMin = femMin(meshSizeField, theNodes->nNodes);
+	// double hMax = femMax(meshSizeField, theNodes->nNodes);
+	// printf(" ==== Global requested h : %14.7e \n", theGeometry->h);
+	// printf(" ==== Minimum h          : %14.7e \n", hMin);
+	// printf(" ==== Maximum h          : %14.7e \n", hMax);
 
 	//
 	//  -4- Visualisation
@@ -173,7 +173,7 @@ int main(int argc, char **argv)
 
 
 	// glfwTerminate();
-	free(meshSizeField);
+	// free(meshSizeField);
 	femElasticityFree(theProblem);
 	geoFree();
 

@@ -4,7 +4,7 @@ CSV_FILE=perf.csv
 
 echo "" > $CSV_FILE
 
-SEQ=`seq 0.25 -0.005 0.05`
+SEQ=`seq 0.25 -0.005 0.015`
 
 SIZE=""
 for i in $SEQ
@@ -24,6 +24,8 @@ do
 	
 	CUR_TIME=`/usr/bin/time -f %e ./myFem ../data/mesh.txt ../data/problem.txt 2>&1`
 	TIME=$TIME,$CUR_TIME
+
+	echo $i
 
 	cd ../../
 done

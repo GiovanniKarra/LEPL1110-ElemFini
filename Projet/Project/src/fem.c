@@ -1026,9 +1026,12 @@ femProblem *femElasticityRead(femGeo *theGeometry, const char *filename, femSolv
 }
 
 void femSolutionWrite(int nNodes, int nfields, double *data, const char *filename) {
+	// printf("trying to open : %s, length : %ld\n", filename, strlen(filename));
+	while (filename[0] == 2) filename += 1;
 	FILE *file = fopen(filename, "w");
 	if (!file) {
 		printf("Error at %s:%d\nUnable to open file %s\n", __FILE__, __LINE__, filename);
+		perror("OMG FUCK");
 		exit(-1);
 	}
 	fprintf(file, "Size %d,%d\n", nNodes, nfields);
