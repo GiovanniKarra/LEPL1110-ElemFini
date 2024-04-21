@@ -4,7 +4,7 @@ CSV_FILE=perf.csv
 
 echo "" > $CSV_FILE
 
-SEQ=`seq 0.25 -0.005 0.015`
+SEQ=`seq 0.25 -0.005 0.01`
 
 SIZE=""
 for i in $SEQ
@@ -16,9 +16,8 @@ echo $SIZE >> $CSV_FILE
 TIME=""
 for i in $SEQ
 do
-	cd ProjectPreProcessor
 	python3 mesh.py `echo $i | sed 's/,/./'`
-	cd build
+	cd ../ProjectPreProcessor/build
 	./myFem mesh
 	cd ../../Project/build
 	
@@ -27,6 +26,6 @@ do
 
 	echo $i
 
-	cd ../../
+	cd ../../Scripts
 done
 echo $TIME >> $CSV_FILE

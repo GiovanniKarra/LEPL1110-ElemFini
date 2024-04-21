@@ -2,7 +2,7 @@
 
 FRAME_COUNT=$(($1-1))
 
-cd Project/build/
+cd ../Project/build/
 make
 for i in $(seq 0 $FRAME_COUNT)
 do

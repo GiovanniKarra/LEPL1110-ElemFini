@@ -28,15 +28,11 @@ int main(int argc, char **argv) {
 	char *uvpath = argv[3];
 
 	geoMeshRead(meshpath);
-	// geoMeshRead("../data/aximesh.txt");
-	// geoMeshRead("../data/test.txt");
 
 	femProblem *theProblem = femElasticityRead(theGeometry, problempath);
-	// femProblem *theProblem = femElasticityRead(theGeometry, "../data/problemAXYSIM.txt");
 	double *theSoluce = theProblem->soluce;
 	int n = theGeometry->theNodes->nNodes;
 	femSolutiondRead(2 * n, theSoluce, uvpath);
-	// femSolutiondRead(2 * n, theSoluce, "../data/UVAXYSIM.txt");
 	femElasticityPrint(theProblem);
 
 	//

@@ -116,7 +116,7 @@ if __name__ == "__main__":
 	gmsh.model.mesh.generate()
 	gmsh.model.mesh.refine()
 
-	gmsh.write("data/mesh.msh")
+	gmsh.write("../ProjectPreProcessor/data/mesh.msh")
 
 	# gmsh.fltk.run()
 	gmsh.finalize()
