@@ -6,9 +6,9 @@ import subprocess
 import requests
 from sys import platform
 
-group = input("Group number ? >> ");
-login1 = input("Login of the first student ? >> ")
-login2 = input("Login of the second student ? >> ")
+group = "007";
+login1 = "pileboutte"
+login2 = "gkarra"
 lsgroup = "%03d" % int(group)
 login1 = login1.lower()
 login2 = login2.lower()

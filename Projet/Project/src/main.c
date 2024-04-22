@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 	char *meshpath = argv[1];
 	char *problempath = argv[2];
 
-	int PRINT = FALSE;
+	int PRINT = TRUE;
 
 	femGeo *theGeometry = geoGetGeometry();
 	geoMeshRead(meshpath);
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 	// 	glfwSwapBuffers(window);
 	// 	glfwPollEvents();
 	// }
-
+	
 	double *theSoluce = femElasticitySolve(theProblem);
 	int nNodes = theGeometry->theNodes->nNodes;
 
